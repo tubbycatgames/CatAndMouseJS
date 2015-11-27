@@ -1,4 +1,4 @@
-var change = require('chance')
+var change = require('chance');
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '',
   { preload: preload, create: create, update: update });
@@ -7,6 +7,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '',
  * Load all base assets for the game
  */
 function preload() {
+  game.load.audio('meow', 'media/audio/meow.ogg')
   game.load.image('cat', 'media/sprites/Cat.png');
   game.load.image('mouse', 'media/sprites/Mouse.png');
   game.load.image('deadMouse', 'media/sprites/DeadMouse.png');
@@ -32,6 +33,8 @@ function create() {
   for (var currentMouse = 0; currentMouse < 20; currentMouse++) {
     mice.create(randomX(game, mouseImage), randomY(game, mouseImage), 'mouse');
   }
+
+  game.sound.play('meow');
 }
 
 /**
