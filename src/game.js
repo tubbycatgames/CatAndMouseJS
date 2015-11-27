@@ -1,3 +1,5 @@
+var change = require('chance')
+
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '',
   { preload: preload, create: create, update: update });
 
@@ -9,15 +11,23 @@ function preload() {
 }
 
 function create() {
-  var floor = game.cache.getImage('tileFloor');
-  for (var currentx = 0; currentx < game.width; currentx += floor.width) {
-    for (var currenty = 0; currenty < game.height; currenty += floor.height) {
+  var floorImage = game.cache.getImage('tileFloor');
+  for (var currentx = 0; currentx < game.width; currentx += floorImage.width) {
+    for (var currenty = 0; currenty < game.height; currenty += floorImage.height) {
       game.add.image(currentx, currenty, 'tileFloor');
     }
   }
+
   game.add.sprite(0, 0, 'cat');
-  game.add.sprite(30, 30, 'mouse');
-  game.add.sprite(60, 60, 'deadMouse');
+
+  var mouseImage = game.cache.getImage('mouse');
+  for (var currentMouse = 0; currentMouse < 20; currentMouse++) {
+    game.add.sprite(
+      chance.integer({min: 0, max: game.width - mouseImage.width}),
+      chance.integer({min: 0, max: game.height - mouseImage.height}),
+      'mouse'
+    );
+  }
 }
 
 function update() {
