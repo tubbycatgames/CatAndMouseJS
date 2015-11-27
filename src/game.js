@@ -18,17 +18,22 @@ function create() {
     }
   }
 
-  game.add.sprite(0, 0, 'cat');
+  var catImage = game.cache.getImage('cat');
+  game.add.sprite(randomX(game, catImage), randomY(game, catImage), 'cat');
 
   var mouseImage = game.cache.getImage('mouse');
   for (var currentMouse = 0; currentMouse < 20; currentMouse++) {
-    game.add.sprite(
-      chance.integer({min: 0, max: game.width - mouseImage.width}),
-      chance.integer({min: 0, max: game.height - mouseImage.height}),
-      'mouse'
-    );
+    game.add.sprite(randomX(game, mouseImage), randomY(game, mouseImage), 'mouse');
   }
 }
 
 function update() {
+}
+
+function randomX(game, image) {
+  return chance.integer({min: 0, max: game.width - image.width})
+}
+
+function randomY(game, image) {
+  return chance.integer({min: 0, max: game.height - image.height})
 }

@@ -7,21 +7,23 @@ serve = require 'gulp-serve'
 
 paths =
   build: 'build/'
+  index: 'index.html'
   lib: 'lib/*.js'
   media: ['media/audio/*', 'media/sprites/*']
   root: './'
   src: 'src/*.js'
-  static: 'static/index.html'
   style: 'style/*.css'
 
 gulp.task 'default', ['serve']
 
 gulp.task 'build', ->
-  return runSequence 'clean', ['style', 'static', 'src', 'lib', 'media']
+  return runSequence 'clean', ['index', 'lib', 'media', 'src', 'style']
 
 gulp.task 'clean', ->
   return gulp.src(paths.build, read: false)
     .pipe(clean())
+
+gulp.task 'index', -> copyToBuild(paths.index, paths.build, paths.root)
 
 gulp.task 'lib', -> return copyToBuild(paths.lib, paths.build, paths.root)
 
@@ -30,19 +32,17 @@ gulp.task 'media', -> return copyToBuild(paths.media, paths.build, paths.root)
 gulp.task 'serve', ['build', 'watch'], serve(root: ['build'], port: 8080)
 
 gulp.task 'src', ->
-  return gulp.src(paths.src)
+  return gulp.src(paths.src, base: paths.root)
     .pipe(browserify(insertGlobals : true, debug : true))
     .pipe(gulp.dest(paths.build))
 
-gulp.task 'static', -> copyToBuild(paths.static, paths.build)
-
-gulp.task 'style', -> copyToBuild(paths.style, paths.build)
+gulp.task 'style', -> copyToBuild(paths.style, paths.build, paths.root)
 
 gulp.task 'watch', ->
   gulp.watch paths.lib, ['lib']
   gulp.watch paths.media, ['media']
   gulp.watch paths.src, ['src']
-  gulp.watch paths.static, ['static']
+  gulp.watch paths.index, ['index']
   gulp.watch paths.style, ['style']
 
 ###
