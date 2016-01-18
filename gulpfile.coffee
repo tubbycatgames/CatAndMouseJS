@@ -11,7 +11,8 @@ paths =
   lib: 'lib/*.js'
   media: ['media/audio/*', 'media/sprites/*']
   root: './'
-  src: 'src/*.js'
+  src: 'src/**/*.js'
+  srcMain: 'src/game.js'
   style: 'style/*.css'
 
 gulp.task 'default', ['serve']
@@ -23,7 +24,7 @@ gulp.task 'clean', ->
   return gulp.src(paths.build, read: false)
     .pipe(clean())
 
-gulp.task 'index', -> copyToBuild(paths.index, paths.build, paths.root)
+gulp.task 'index', -> return copyToBuild(paths.index, paths.build, paths.root)
 
 gulp.task 'lib', -> return copyToBuild(paths.lib, paths.build, paths.root)
 
@@ -32,11 +33,14 @@ gulp.task 'media', -> return copyToBuild(paths.media, paths.build, paths.root)
 gulp.task 'serve', ['build', 'watch'], serve(root: ['build'], port: 8080)
 
 gulp.task 'src', ->
-  return gulp.src(paths.src, base: paths.root)
-    .pipe(browserify(insertGlobals : true, debug : true))
+  return gulp.src(paths.srcMain, base: paths.root)
+    .pipe(browserify(
+      insertGlobals : true,
+      debug : true,
+      paths: ['./node_modules', './src']))
     .pipe(gulp.dest(paths.build))
 
-gulp.task 'style', -> copyToBuild(paths.style, paths.build, paths.root)
+gulp.task 'style', -> return copyToBuild(paths.style, paths.build, paths.root)
 
 gulp.task 'watch', ->
   gulp.watch paths.lib, ['lib']

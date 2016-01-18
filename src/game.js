@@ -1,4 +1,8 @@
-var change = require('chance');
+var Cat = require('animals/cat');
+var Constants = require('media_constants');
+var Floor = require('inanimate/floor');
+var Mice = require('animals/mice');
+var Random = require('random');
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '',
   { preload: preload, create: create, update: update });
@@ -7,62 +11,29 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '',
  * Load all base assets for the game
  */
 function preload() {
-  game.load.audio('meow', 'media/audio/meow.ogg')
-  game.load.image('cat', 'media/sprites/Cat.png');
-  game.load.image('mouse', 'media/sprites/Mouse.png');
-  game.load.image('deadMouse', 'media/sprites/DeadMouse.png');
-  game.load.image('tileFloor', 'media/sprites/TileFloor.png');
+  game.load.audio(Constants.MEOW, 'media/audio/meow.ogg')
+  game.load.image(Constants.CAT, 'media/sprites/Cat.png');
+  game.load.image(Constants.MOUSE, 'media/sprites/Mouse.png');
+  game.load.image(Constants.DEAD_MOUSE, 'media/sprites/DeadMouse.png');
+  game.load.image(Constants.FLOOR, 'media/sprites/TileFloor.png');
 }
 
+var cat;
+var mice;
 /**
  * Setup the initial state of the game
  */
 function create() {
-  var floorImage = game.cache.getImage('tileFloor');
-  for (var currentx = 0; currentx < game.width; currentx += floorImage.width) {
-    for (var currenty = 0; currenty < game.height; currenty += floorImage.height) {
-      game.add.image(currentx, currenty, 'tileFloor');
-    }
-  }
+  var floor = new Floor(game);
 
-  var catImage = game.cache.getImage('cat');
-  game.add.sprite(randomX(game, catImage), randomY(game, catImage), 'cat');
+  cat = new Cat(game);
+  mice = new Mice(game);
 
-  var mice = game.add.group();
-  var mouseImage = game.cache.getImage('mouse');
-  for (var currentMouse = 0; currentMouse < 20; currentMouse++) {
-    mice.create(randomX(game, mouseImage), randomY(game, mouseImage), 'mouse');
-  }
-
-  game.sound.play('meow');
+  game.sound.play(Constants.MEOW);
 }
 
 /**
  * Handle game updates
  */
 function update() {
-}
-
-/**
- * Random X coordinate where an image can be placed and be entirely in the game
- *
- * @param {Object} game The Phaser game Object
- * @param {Object} image Image that needs to be placed
- * @return {Number} Random number between 0 and the game width minus
- *  the image width
- */
-function randomX(game, image) {
-  return chance.integer({min: 0, max: game.width - image.width})
-}
-
-/**
- * Random Y coordinate where an image can be placed and be entirely in the game
- *
- * @param Object game The Phaser game Object
- * @param Object image Image that needs to be placed
- * @return {Number} Random number between 0 and the game height minus
- *  the image height
- */
-function randomY(game, image) {
-  return chance.integer({min: 0, max: game.height - image.height})
 }
