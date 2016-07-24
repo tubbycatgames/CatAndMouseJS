@@ -1,24 +1,25 @@
-var Chance = require('chance');
-var chance = new Chance();
+var chance = require('chance').Chance();
 
-var Constants = require('media_constants');
+var MOUSE  = require('media_constants').MOUSE;
 var Random = require('random');
 
-function Mice(game) {
+
+function Mice(game, mouseCount) {
   this.mice = game.add.group();
   this.mice.enableBody = true;
 
-  this._mouseSprite = game.cache.getImage(Constants.Mouse);
-  for (var currentMouse = 0; currentMouse < 20; currentMouse++) {
-    mouse = this.mice.create(
-      Random.randomX(game, this._mouseSprite),
-      Random.randomY(game, this._mouseSprite),
-      Constants.MOUSE);
+  var sprite = game.cache.getImage(MOUSE);
+  for (var currentMouse = 0; currentMouse < mouseCount; currentMouse++) {
+    var mouse = this.mice.create(
+      Random.x(game, sprite),
+      Random.y(game, sprite),
+      MOUSE);
     mouse.body.collideWorldBounds = true;
 
-    angle = chance.integer({min: 0, max: 360})
-    mouse.angle = angle + 180
-    mouse.body.velocity = game.physics.arcade.velocityFromAngle(angle, 25, null)
+    var angle = chance.integer({min: 0, max: 360});
+    mouse.angle = angle + 180;
+    mouse.body.velocity = game.physics.arcade
+                              .velocityFromAngle(angle, 25, null);
   }
 }
 

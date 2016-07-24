@@ -1,17 +1,18 @@
-var Constants = require('media_constants');
+var CAT    = require('media_constants').CAT;
 var Random = require('random');
 
+
 function Cat(game) {
-  this._velocity = 150;
-  this._sprite = game.cache.getImage(Constants.CAT);
+  var sprite = game.cache.getImage(CAT);
   this.cat = game.add.sprite(
-    Random.randomX(game, this._sprite),
-    Random.randomY(game, this._sprite),
-    Constants.CAT);
+    Random.x(game, sprite),
+    Random.y(game, sprite),
+    CAT);
 
   game.physics.arcade.enable(this.cat);
+  this._velocity = 150;
   this._body = this.cat.body;
-  this._body.collideWorldBounds =true;
+  this._body.collideWorldBounds = true;
 }
 
 Cat.prototype.move = function (cursors) {
@@ -30,6 +31,6 @@ Cat.prototype.move = function (cursors) {
   else if (cursors.down.isDown) {
     this._body.velocity.y = this._velocity;
   }
-}
+};
 
 module.exports = Cat;
