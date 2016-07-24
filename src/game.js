@@ -3,13 +3,11 @@ var Constants = require('media_constants');
 var Floor = require('inanimate/floor');
 var Mice = require('animals/mice');
 var Random = require('random');
+var Score = require('metrics/score');
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '',
   { preload: preload, create: create, update: update });
 
-/**
- * Load all base assets for the game
- */
 function preload() {
   game.load.audio(Constants.MEOW, 'media/audio/meow.ogg')
   game.load.image(Constants.CAT, 'media/sprites/Cat.png');
@@ -20,20 +18,29 @@ function preload() {
 
 var cat;
 var mice;
-/**
- * Setup the initial state of the game
- */
+var score;
 function create() {
+  game.physics.startSystem(Phaser.Physics.ARCADE)
+
   var floor = new Floor(game);
+  score = new Score(game)
 
   cat = new Cat(game);
   mice = new Mice(game);
 
   game.sound.play(Constants.MEOW);
+  cursors = game.input.keyboard.createCursorKeys();
+}
+
+function update() {
+  cat.move(cursors);
+  game.physics.arcade.overlap(cat.cat, mice.mice, killMouse, null, this);
 }
 
 /**
- * Handle game updates
+ * Kill mouse and update score on collision
  */
-function update() {
+function killMouse(player, mouse) {
+  mouse.kill();
+  score.update();
 }
