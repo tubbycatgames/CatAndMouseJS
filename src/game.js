@@ -22,7 +22,7 @@ var cursors;
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
-  new Floor(game);
+  Floor(game);
   score = new Score(game);
   cat = new Cat(game);
   mice = new Mice(game, 20);
@@ -33,7 +33,7 @@ function create() {
 
 function update() {
   cat.move(cursors);
-  game.physics.arcade.overlap(cat.cat, mice.mice, killMouse, null, this);
+  game.physics.arcade.overlap(cat.sprite, mice.group, killMouse, null, this);
 }
 
 /**

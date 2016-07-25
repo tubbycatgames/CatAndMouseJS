@@ -1,8 +1,8 @@
-browserify = require 'gulp-browserify'
-clean = require 'gulp-clean'
-gulp = require 'gulp'
+browserify  = require 'gulp-browserify'
+clean       = require 'gulp-clean'
+gulp        = require 'gulp'
 runSequence = require 'run-sequence'
-serve = require 'gulp-serve'
+serve       = require 'gulp-serve'
 
 
 paths =
@@ -34,10 +34,10 @@ gulp.task 'serve', ['build', 'watch'], serve(root: ['build'], port: 8080)
 
 gulp.task 'src', ->
   return gulp.src(paths.srcMain, base: paths.root)
-    .pipe(browserify(
+    .pipe(browserify({
       insertGlobals : true,
       debug : true,
-      paths: ['./node_modules', './src']))
+      paths: ['./node_modules', './src']}))
     .pipe(gulp.dest(paths.build))
 
 gulp.task 'style', -> return copyToBuild(paths.style, paths.build, paths.root)

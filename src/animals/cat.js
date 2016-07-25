@@ -3,15 +3,16 @@ var Random = require('random');
 
 
 function Cat(game) {
-  var sprite = game.cache.getImage(CAT);
-  this.cat = game.add.sprite(
-    Random.x(game, sprite),
-    Random.y(game, sprite),
+  var image = game.cache.getImage(CAT);
+  this.sprite = game.add.sprite(
+    Random.x(game, image),
+    Random.y(game, image),
     CAT);
+  this.sprite.anchor.setTo(.5, .5);
 
-  game.physics.arcade.enable(this.cat);
+  game.physics.arcade.enable(this.sprite);
   this._velocity = 150;
-  this._body = this.cat.body;
+  this._body = this.sprite.body;
   this._body.collideWorldBounds = true;
 }
 
@@ -30,6 +31,13 @@ Cat.prototype.move = function (cursors) {
   }
   else if (cursors.down.isDown) {
     this._body.velocity.y = this._velocity;
+  }
+
+  if (!this._body.velocity.isZero()) {
+    var rotation = Math.atan2(this._body.velocity.y, this._body.velocity.x);
+    if (this.sprite.rotation != rotation) {
+      this.sprite.rotation = rotation;
+    }
   }
 };
 

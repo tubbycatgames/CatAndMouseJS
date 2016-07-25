@@ -5,21 +5,21 @@ var Random = require('random');
 
 
 function Mice(game, mouseCount) {
-  this.mice = game.add.group();
-  this.mice.enableBody = true;
+  this.group = game.add.group();
+  this.group.enableBody = true;
 
-  var sprite = game.cache.getImage(MOUSE);
+  var image = game.cache.getImage(MOUSE);
   for (var currentMouse = 0; currentMouse < mouseCount; currentMouse++) {
-    var mouse = this.mice.create(
-      Random.x(game, sprite),
-      Random.y(game, sprite),
+    var mouse = this.group.create(
+      Random.x(game, image),
+      Random.y(game, image),
       MOUSE);
+    mouse.anchor.setTo(.5, .5);
     mouse.body.collideWorldBounds = true;
 
-    var angle = chance.integer({min: 0, max: 360});
-    mouse.angle = angle + 180;
+    mouse.rotation = Math.random() * (2 * Math.PI);
     mouse.body.velocity = game.physics.arcade
-                              .velocityFromAngle(angle, 25, null);
+                              .velocityFromRotation(mouse.rotation, 25, null);
   }
 }
 
