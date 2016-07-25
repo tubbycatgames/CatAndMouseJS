@@ -4,7 +4,7 @@ var loadState = require('states/load');
 var playState = require('states/play');
 
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
+var game = new Phaser.Game('95', '95');
 game.state.add(States.BOOT, bootState);
 game.state.add(States.LOAD, loadState);
 game.state.add(States.PLAY, playState);
