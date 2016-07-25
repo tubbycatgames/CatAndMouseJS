@@ -1,5 +1,5 @@
 var MOUSE  = require('constants/media').MOUSE;
-var Random = require('random');
+var Random = require('tools/random');
 
 
 function Mice(game, mouseCount) {

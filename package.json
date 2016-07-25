@@ -23,9 +23,6 @@
   "bugs": {
     "url": "https://github.com/lobobabysaurus/CatAndMouse/issues"
   },
-  "dependencies": {
-    "chance": "^0.8.0"
-  },
   "devDependencies": {
     "coffeegulp": "^0.0.7",
     "gulp": "^3.9.0",

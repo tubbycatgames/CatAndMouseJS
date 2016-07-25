@@ -1,7 +1,5 @@
-var chance = require('chance').Chance();
-
 function _random(max) {
-    return chance.integer({min:0, max: max})
+    return Math.random() * max;
 }
 
 function x(game, image) {

@@ -1,5 +1,5 @@
 var CAT    = require('constants/media').CAT;
-var Random = require('random');
+var Random = require('tools/random');
 
 
 function Cat(game) {
