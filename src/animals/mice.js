@@ -1,6 +1,4 @@
-var chance = require('chance').Chance();
-
-var MOUSE  = require('media_constants').MOUSE;
+var MOUSE  = require('constants/media').MOUSE;
 var Random = require('random');
 
 

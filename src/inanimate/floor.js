@@ -1,4 +1,4 @@
-var FLOOR = require('media_constants').FLOOR;
+var FLOOR = require('constants/media').FLOOR;
 
 
 function Floor(game) {

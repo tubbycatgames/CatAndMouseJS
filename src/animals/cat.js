@@ -1,4 +1,4 @@
-var CAT    = require('media_constants').CAT;
+var CAT    = require('constants/media').CAT;
 var Random = require('random');
 
 
