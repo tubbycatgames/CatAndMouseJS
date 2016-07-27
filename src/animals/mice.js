@@ -5,7 +5,7 @@ var Random = require('tools/random');
 function Mice(game, mouseCount) {
   this.group = game.add.group();
   this.group.enableBody = true;
-  this.speed = 50;
+  this._velocity = 50;
 
   var image = game.cache.getImage(MOUSE);
   for (var currentMouse = 0; currentMouse < mouseCount; currentMouse++) {
@@ -16,8 +16,8 @@ function Mice(game, mouseCount) {
     mouse.anchor.setTo(.5, .5);
 
     mouse.rotation = Math.random() * (2 * Math.PI);
-    mouse.body.velocity = game.physics.arcade.velocityFromRotation(
-                                              mouse.rotation, this.speed, null);
+    mouse.body.velocity = game.physics.arcade
+                    .velocityFromRotation(mouse.rotation, this._velocity, null);
     mouse.body.collideWorldBounds = true;
     mouse.body.onWorldBounds = new Phaser.Signal();
     mouse.body.onWorldBounds.add(redirectMouse, this);
@@ -40,8 +40,8 @@ function redirectMouse(mouse, up, down, left, right) {
   }
   mouse.rotation = mouse.game.rnd.integerInRange(range[0], range[1]) *
                    (Math.PI/180);
-  mouse.body.velocity = mouse.game.physics.arcade.velocityFromRotation(
-                                              mouse.rotation, this.speed, null);
+  mouse.body.velocity = mouse.game.physics.arcade
+                    .velocityFromRotation(mouse.rotation, this._velocity, null);
 }
 
 module.exports = Mice;

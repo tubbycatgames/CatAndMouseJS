@@ -3,6 +3,8 @@ var Random = require('tools/random');
 
 
 function Cat(game) {
+  this._velocity = 150;
+  
   var image = game.cache.getImage(CAT);
   this.sprite = game.add.sprite(
     Random.x(game, image),
@@ -11,7 +13,6 @@ function Cat(game) {
   this.sprite.anchor.setTo(.5, .5);
 
   game.physics.arcade.enable(this.sprite);
-  this._velocity = 150;
   this._body = this.sprite.body;
   this._body.collideWorldBounds = true;
 }
