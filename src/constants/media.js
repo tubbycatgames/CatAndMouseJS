@@ -1,7 +1,7 @@
 module.exports = {
-  CAT: 'cat',
+  CAT:        'cat',
   DEAD_MOUSE: 'deadMouse',
-  FLOOR: 'tileFloor',
-  MEOW: 'meow',
-  MOUSE: 'mouse'
+  FLOOR:      'tileFloor',
+  MEOW:       'meow',
+  MOUSE:      'mouse'
 };
