@@ -9,7 +9,6 @@ export default class Score {
   }
 
   update() {
-    this._score += 10;
-    this._scoreText.text = 'Score: ' + this._score;
+    this._scoreText.text = `Score: ${this._score += 10}`;
   }
 }

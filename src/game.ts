@@ -1,4 +1,4 @@
-///<reference path='../typescript/phaser.d.ts' />
+///<reference path='../typings/index.d.ts'/>
 
 import States    from './constants/state';
 import BootState from './states/boot';

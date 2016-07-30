@@ -1,4 +1,6 @@
-import Media from  '../constants/media';
+import * as _ from 'lodash';
+
+import Media  from '../constants/media';
 import Random from '../tools/random';
 
 
@@ -13,7 +15,7 @@ export default class Mice {
     this.group.enableBody = true;
 
     const image = game.cache.getImage(Media.MOUSE);
-    for (let currentMouse = 0; currentMouse < mouseCount; currentMouse++) {
+    for (let current of _.range(0, mouseCount)) {
       const mouse = this.group.create(
         Random.x(game, image),
         Random.y(game, image),
