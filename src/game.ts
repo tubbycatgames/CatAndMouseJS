@@ -1,4 +1,4 @@
-///<reference path='../typings/index.d.ts'/>
+///<reference path='../typings/index'/>
 
 import States    from './constants/state';
 import BootState from './states/boot';

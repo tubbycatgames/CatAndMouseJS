@@ -46,12 +46,12 @@ gulp.task 'src', ->
       entries: [paths.srcMain]
     ).plugin tsify, noImplicitAny: true
     .bundle()
-    .pipe source('src/game.js')
+    .pipe source 'src/game.js'
     .pipe buffer()
-    .pipe sourcemaps.init(loadMaps: true)
+    .pipe sourcemaps.init loadMaps: true
     .pipe uglify()
-    .pipe sourcemaps.write('./')
-    .pipe gulp.dest(paths.build)
+    .pipe sourcemaps.write './'
+    .pipe gulp.dest paths.build
 
 gulp.task 'style', -> return copyToBuild paths.style, paths.build, paths.root
 
@@ -73,4 +73,4 @@ gulp.task 'watch', ->
 ###
 copyToBuild = (src, dest, base) ->
   return gulp.src src, base: base
-    .pipe gulp.dest(dest)
+    .pipe gulp.dest dest

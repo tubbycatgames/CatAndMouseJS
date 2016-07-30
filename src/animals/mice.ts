@@ -6,11 +6,11 @@ import Random from '../tools/random';
 
 export default class Mice {
 
-  public group: Phaser.Group;
+  group: Phaser.Group;
 
   constructor(game: Phaser.Game,
-              private _velocity: number,
-              mouseCount: number) {
+              private _velocity: number = 50,
+              mouseCount: number = 20) {
     this.group = game.add.group();
     this.group.enableBody = true;
 
@@ -27,13 +27,13 @@ export default class Mice {
                     .velocityFromRotation(mouse.rotation, this._velocity, null);
       mouse.body.collideWorldBounds = true;
       mouse.body.onWorldBounds = new Phaser.Signal();
-      mouse.body.onWorldBounds.add(redirectMouse, this);
+      mouse.body.onWorldBounds.add(redirectFromWall, this);
     }
   }
 }
 
-function redirectMouse(mouse: Phaser.Sprite, up: boolean, down: boolean,
-                                             left: boolean, right: boolean) {
+function redirectFromWall(mouse: Phaser.Sprite, up: boolean, down: boolean,
+                                                left: boolean, right: boolean) {
   let range = [0, 0];
   if (up) {
     range = [15, 165];

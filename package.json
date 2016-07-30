@@ -4,9 +4,7 @@
   "description": "Cat and Mouse Game in Phaser",
   "main": "src/game.js",
   "scripts": {
-    "build": "node_modules/.bin/coffeegulp build",
-    "serve": "node_modules/.bin/coffeegulp serve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "gulp": "node_modules/.bin/coffeegulp"
   },
   "repository": {
     "type": "git",

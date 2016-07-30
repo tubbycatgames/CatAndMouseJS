@@ -1,9 +1,9 @@
 import Cat       from '../animals/cat';
+import Floor     from '../inanimate/floor';
 import Media     from '../constants/media';
 import Mice      from '../animals/mice';
 import Score     from '../metrics/score';
 import States    from '../constants/state';
-import drawFloor from '../inanimate/floor';
 
 
 export default class PlayState extends Phaser.State {
@@ -13,10 +13,10 @@ export default class PlayState extends Phaser.State {
   private cursors: Phaser.CursorKeys;
 
   create() {
-    drawFloor(this.game);
+    Floor.render(this.game);
     this.score = new Score(this.game);
-    this.cat   = new Cat(this.game, 150);
-    this.mice  = new Mice(this.game, 50, 20);
+    this.cat   = new Cat(this.game);
+    this.mice  = new Mice(this.game);
 
     this.cursors = this.input.keyboard.createCursorKeys();
     this.sound.play(Media.MEOW);

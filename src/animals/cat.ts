@@ -6,7 +6,7 @@ export default class Cat {
 
   public sprite: Phaser.Sprite;
 
-  constructor (game: Phaser.Game, private _velocity: number) {
+  constructor (game: Phaser.Game, private _velocity: number = 150) {
     const image = game.cache.getImage(Media.CAT);
     this.sprite = game.add.sprite(
       Random.x(game, image),
@@ -18,20 +18,20 @@ export default class Cat {
     this.sprite.body.collideWorldBounds = true;
   }
 
-  public move(cursors: Phaser.CursorKeys) {
+  move({up, down, left, right}: Phaser.CursorKeys) {
     this.sprite.body.velocity.x = 0;
-    if (cursors.left.isDown) {
+    if (left.isDown) {
       this.sprite.body.velocity.x = -this._velocity;
     }
-    else if (cursors.right.isDown) {
+    else if (right.isDown) {
       this.sprite.body.velocity.x = this._velocity;
     }
 
     this.sprite.body.velocity.y = 0;
-    if (cursors.up.isDown) {
+    if (up.isDown) {
       this.sprite.body.velocity.y = -this._velocity;
     }
-    else if (cursors.down.isDown) {
+    else if (down.isDown) {
       this.sprite.body.velocity.y = this._velocity;
     }
 
