@@ -7,6 +7,7 @@ runSequence = require 'run-sequence'
 serve       = require 'gulp-serve'
 source      = require 'vinyl-source-stream'
 sourcemaps  = require 'gulp-sourcemaps'
+stylus      = require 'gulp-stylus'
 tsify       = require 'tsify'
 uglify      = require 'gulp-uglify'
 
@@ -19,7 +20,7 @@ paths =
   root:    './'
   src:     'src/**/*.ts'
   srcMain: 'src/game.ts'
-  style:   'style/*.css'
+  style:   'style/*.styl'
   typings: 'typings.json'
 
 gulp.task 'default', ['serve']
@@ -53,7 +54,10 @@ gulp.task 'src', ->
     .pipe sourcemaps.write './'
     .pipe gulp.dest paths.build
 
-gulp.task 'style', -> return copyToBuild paths.style, paths.build, paths.root
+gulp.task 'style', ->
+  return gulp.src paths.style, base: paths.root
+    .pipe stylus()
+    .pipe gulp.dest paths.build
 
 gulp.task 'typings', -> return gulp.src(paths.typings).pipe gulpTypings()
 
