@@ -1,8 +1,13 @@
-browserify  = require 'gulp-browserify'
+browserify  = require 'browserify'
+buffer      = require 'vinyl-buffer'
 clean       = require 'gulp-clean'
 gulp        = require 'gulp'
 runSequence = require 'run-sequence'
 serve       = require 'gulp-serve'
+source      = require 'vinyl-source-stream'
+sourcemaps  = require 'gulp-sourcemaps'
+tsify       = require 'tsify'
+uglify      = require 'gulp-uglify'
 
 
 paths =
@@ -11,8 +16,8 @@ paths =
   lib: 'lib/*.js'
   media: ['media/audio/*', 'media/sprites/*']
   root: './'
-  src: 'src/**/*.js'
-  srcMain: 'src/game.js'
+  src: 'src/**/*.ts'
+  srcMain: 'src/game.ts'
   style: 'style/*.css'
 
 gulp.task 'default', ['serve']
@@ -33,11 +38,16 @@ gulp.task 'media', -> return copyToBuild(paths.media, paths.build, paths.root)
 gulp.task 'serve', ['build', 'watch'], serve(root: ['build'], port: 8080)
 
 gulp.task 'src', ->
-  return gulp.src(paths.srcMain, base: paths.root)
-    .pipe(browserify({
-      insertGlobals : true,
-      debug : true,
-      paths: ['./node_modules', './src']}))
+  return browserify(
+      debug: true
+      entries: [paths.srcMain]
+    ).plugin(tsify, noImplicitAny: true)
+    .bundle()
+    .pipe(source('src/game.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init(loadMaps: true))
+    .pipe(uglify())
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(paths.build))
 
 gulp.task 'style', -> return copyToBuild(paths.style, paths.build, paths.root)

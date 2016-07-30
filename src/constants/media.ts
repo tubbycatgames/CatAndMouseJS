@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   CAT:        'cat',
   DEAD_MOUSE: 'deadMouse',
   FLOOR:      'tileFloor',
