@@ -1,7 +1,7 @@
 export default class Random {
 
   private static random(game: Phaser.Game, gameDim: number, objectDim: number) {
-    return game.rnd.integerInRange(objectDim, gameDim - objectDim);
+    return game.rnd.between(objectDim, gameDim - objectDim);
   }
 
   static x(game: Phaser.Game, image: HTMLImageElement): number {

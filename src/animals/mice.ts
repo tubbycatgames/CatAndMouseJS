@@ -21,18 +21,43 @@ export default class Mice {
     }
   }
 
+  public move () {
+    this.group.forEachAlive((mouse: Phaser.Sprite) => {
+      const mouseAwareness = this.game.add.sprite(mouse.x, mouse.y,
+                                                  Media.MOUSE_AWARENESS);
+      mouseAwareness.anchor = mouse.anchor;
+
+      this.game.physics.arcade.enable(mouseAwareness);
+      this.game.physics.arcade.overlap(mouseAwareness, this.group,
+                                       this.fleeMouse(mouse), null, this);
+      mouseAwareness.destroy();
+    }, this);
+  }
+
   private createMouse() {
     const mouse = this.group.create(Random.x(this.game, this.image),
                                     Random.y(this.game, this.image),
                                     Media.MOUSE);
     mouse.anchor.setTo(.5, .5);
 
-    mouse.rotation = Phaser.Math.degToRad(this.game.rnd.integerInRange(0, 360));
+    mouse.rotation = Phaser.Math.degToRad(this.game.rnd.between(0, 360));
     mouse.body.velocity = Animal.getVelocity(mouse, this.speed);
 
     mouse.body.collideWorldBounds = true;
     mouse.body.onWorldBounds = new Phaser.Signal();
     mouse.body.onWorldBounds.add(this.fleeWall, this);
+  }
+
+  private fleeMouse(mouse: Phaser.Sprite) {
+    return (awarenessZone: Phaser.Sprite, otherMouse: Phaser.Sprite) => {
+      if (otherMouse != mouse) {
+        if (Math.abs(mouse.rotation - otherMouse.rotation) < Math.PI) {
+          mouse.rotation = mouse.rotation +
+            ((Math.PI / 4) * this.game.rnd.between(0, 1));
+          mouse.body.velocity = Animal.getVelocity(mouse, this.speed);
+        }
+      }
+    };
   }
 
   private fleeWall(mouse: Phaser.Sprite, up: boolean, down: boolean,
@@ -45,7 +70,7 @@ export default class Mice {
     else            range = [0, 0];
 
     mouse.rotation = Phaser.Math.degToRad(
-      this.game.rnd.integerInRange(range[0], range[1])
+      this.game.rnd.between(range[0], range[1])
     );
     mouse.body.velocity = Animal.getVelocity(mouse, this.speed);
   }

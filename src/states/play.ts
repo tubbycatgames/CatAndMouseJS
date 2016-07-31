@@ -32,6 +32,7 @@ export default class PlayState extends Phaser.State {
   }
 
   update() {
+    this.mice.move();
     this.cat.move(this.cursors);
     this.physics.arcade.overlap(this.cat.sprite, this.mice.group,
                                 this.kill, null, this);
