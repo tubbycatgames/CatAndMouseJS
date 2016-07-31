@@ -1,6 +1,6 @@
 {
   "name": "CatAndMouse",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Cat and Mouse Game in Phaser",
   "main": "src/game.js",
   "scripts": {
@@ -14,7 +14,9 @@
     "Cat",
     "Mouse",
     "Phaser",
-    "Video Game"
+    "Video Game",
+    "HTML5",
+    "Tubby Cat Games"
   ],
   "author": "Phil Simmons",
   "license": "GPL-2.0",

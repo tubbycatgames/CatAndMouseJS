@@ -13,7 +13,7 @@ export default class Mice {
     this.group.enableBody = true;
 
     const image = game.cache.getImage(Media.MOUSE);
-    for (let i=0; i < mouseCount; i++) {
+    for (let i of Phaser.ArrayUtils.numberArray(0, mouseCount)) {
       const mouse = this.group.create(Random.x(game, image),
                                       Random.y(game, image),
                                       Media.MOUSE);
