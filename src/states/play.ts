@@ -19,9 +19,8 @@ export default class PlayState extends Phaser.State {
     this.mice  = new Mice(this.game);
     this.score = new Score(this.game, this.mice.group);
 
-    this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onUp.add(() => {
-      this.game.paused = !this.game.paused;
-    }, this);
+    this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+        .onUp.add(() => {this.game.paused = !this.game.paused}, this);
     this.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
     this.cursors = this.input.keyboard.createCursorKeys();
 

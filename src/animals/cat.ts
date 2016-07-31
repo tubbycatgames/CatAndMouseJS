@@ -1,3 +1,4 @@
+import Animal from './animal';
 import Media  from '../constants/media';
 import Random from '../tools/random';
 
@@ -19,28 +20,20 @@ export default class Cat {
 
   move({up, down, left, right}: Phaser.CursorKeys) {
     this.sprite.body.velocity.setTo(0, 0);
+    
     const velocity = new Phaser.Point(0, 0);
-    if (left.isDown) {
-      velocity.x = -this.speed;
-    }
-    else if (right.isDown) {
-      velocity.x = this.speed;
-    }
+    if      (left.isDown)  velocity.x = -this.speed;
+    else if (right.isDown) velocity.x = this.speed;
 
-    if (up.isDown) {
-      velocity.y = -this.speed;
-    }
-    else if (down.isDown) {
-      velocity.y = this.speed;
-    }
+    if      (up.isDown)   velocity.y = -this.speed;
+    else if (down.isDown) velocity.y = this.speed;
 
     if (!velocity.isZero()) {
       const rotation = Math.atan2(velocity.y, velocity.x);
-      this.sprite.body.velocity = this.sprite.game.physics.arcade
-                              .velocityFromRotation(rotation, this.speed, null);
       if (this.sprite.rotation != rotation) {
         this.sprite.rotation = rotation;
       }
+      this.sprite.body.velocity = Animal.getVelocity(this.sprite, this.speed);
     }
   }
 }

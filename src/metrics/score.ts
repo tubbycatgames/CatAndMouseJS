@@ -21,12 +21,12 @@ export default class Score {
   }
 
   update() {
-    this.timer.text = `${this.seconds()} Seconds Left`;
+    this.timer.setText(`${this.seconds()} Seconds Left`);
   }
 
   increase() {
-    this.scoreText.text = `Score: ${this.score += 10}`;
-    this.miceLeft.text  = `${this.mice.countLiving()} Mice Left`;
+    this.scoreText.setText(`Score: ${this.score += 10}`);
+    this.miceLeft.setText(`${this.mice.countLiving()} Mice Left`);
   }
 
   private seconds() {
