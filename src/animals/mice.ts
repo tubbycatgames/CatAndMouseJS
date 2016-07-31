@@ -2,17 +2,14 @@ import * as _ from 'lodash';
 
 import Media         from '../constants/media';
 import Random        from '../tools/random';
-import VelocityCache from '../tools/velocity_cache';
 
 
 export default class Mice {
 
   group: Phaser.Group;
 
-  private _velocities: VelocityCache = new VelocityCache()
-
   constructor(game: Phaser.Game,
-              private _speed: number = 50,
+              private speed: number = 50,
               mouseCount: number = 20) {
     this.group = game.add.group();
     this.group.enableBody = true;
@@ -25,32 +22,18 @@ export default class Mice {
         Media.MOUSE);
       mouse.anchor.setTo(.5, .5);
 
-      mouse.rotation = Math.random() * (2 * Math.PI);
-      mouse.body.velocity = game.physics.arcade
-                       .velocityFromRotation(mouse.rotation, this._speed, null);
-      this._velocities.set(mouse);
+      mouse.rotation = Phaser.Math.degToRad(game.rnd.integerInRange(0, 360));
+      mouse.body.velocity = game.physics.arcade.velocityFromRotation(
+                                              mouse.rotation, this.speed, null);
 
       mouse.body.collideWorldBounds = true;
       mouse.body.onWorldBounds = new Phaser.Signal();
-      mouse.body.onWorldBounds.add(this.redirectFromWall, this);
+      mouse.body.onWorldBounds.add(this.fleeWall, this);
     }
   }
 
-  start() {
-    this.group.forEachAlive((mouse: Phaser.Sprite) => {
-      mouse.body.velocity = this._velocities.get(mouse).velocity.clone();
-    }, this);
-  }
-
-  stop() {
-    this.group.forEachAlive((mouse: Phaser.Sprite) => {
-      this._velocities.set(mouse);
-      mouse.body.velocity.setTo(0, 0);
-    }, this);
-  }
-
-  private redirectFromWall(mouse: Phaser.Sprite, up: boolean, down: boolean,
-                                               left: boolean, right: boolean) {
+  private fleeWall(mouse: Phaser.Sprite, up: boolean, down: boolean,
+                                         left: boolean, right: boolean) {
     let range = [0, 0];
     if (up) {
       range = [15, 165];
@@ -64,10 +47,10 @@ export default class Mice {
     else if (right) {
       range = [105, 255];
     }
-    mouse.rotation = mouse.game.rnd.integerInRange(range[0], range[1]) *
-                     (Math.PI/180);
-    mouse.body.velocity = mouse.game.physics.arcade
-                       .velocityFromRotation(mouse.rotation, this._speed, null);
-    this._velocities.set(mouse);
+    mouse.rotation = Phaser.Math.degToRad(
+      mouse.game.rnd.integerInRange(range[0], range[1])
+    );
+    mouse.body.velocity = mouse.game.physics.arcade.velocityFromRotation(
+                                             mouse.rotation, this.speed, null);
   }
 }

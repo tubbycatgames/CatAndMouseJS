@@ -1,12 +1,14 @@
 export default class Random {
 
+  private static random(game: Phaser.Game, gameDim: number, objectDim: number) {
+    return game.rnd.integerInRange(objectDim, gameDim - objectDim);
+  }
+
   static x(game: Phaser.Game, image: HTMLImageElement): number {
-    const halfWidth = image.width / 2;
-    return game.rnd.integerInRange(halfWidth, game.width - halfWidth);
+    return Random.random(game, game.width, image.width / 2);
   }
 
   static y(game: Phaser.Game, image: HTMLImageElement): number {
-    const halfHeight = image.height / 2;
-    return game.rnd.integerInRange(halfHeight, game.height - halfHeight);
+    return Random.random(game, game.height, image.height / 2);
   }
 }
