@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 import Media         from '../constants/media';
 import Random        from '../tools/random';
 
@@ -15,11 +13,10 @@ export default class Mice {
     this.group.enableBody = true;
 
     const image = game.cache.getImage(Media.MOUSE);
-    for (let count of _.range(0, mouseCount)) {
-      const mouse = this.group.create(
-        Random.x(game, image),
-        Random.y(game, image),
-        Media.MOUSE);
+    for (let i=0; i < mouseCount; i++) {
+      const mouse = this.group.create(Random.x(game, image),
+                                      Random.y(game, image),
+                                      Media.MOUSE);
       mouse.anchor.setTo(.5, .5);
 
       mouse.rotation = Phaser.Math.degToRad(game.rnd.integerInRange(0, 360));
@@ -51,6 +48,6 @@ export default class Mice {
       mouse.game.rnd.integerInRange(range[0], range[1])
     );
     mouse.body.velocity = mouse.game.physics.arcade.velocityFromRotation(
-                                             mouse.rotation, this.speed, null);
+                                              mouse.rotation, this.speed, null);
   }
 }

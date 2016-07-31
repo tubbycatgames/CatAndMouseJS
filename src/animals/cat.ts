@@ -8,10 +8,9 @@ export default class Cat {
 
   constructor (game: Phaser.Game, private speed: number = 150) {
     const image = game.cache.getImage(Media.CAT);
-    this.sprite = game.add.sprite(
-      Random.x(game, image),
-      Random.y(game, image),
-      Media.CAT);
+    this.sprite = game.add.sprite(Random.x(game, image),
+                                  Random.y(game, image),
+                                  Media.CAT);
     this.sprite.anchor.setTo(.5, .5);
 
     game.physics.arcade.enable(this.sprite);

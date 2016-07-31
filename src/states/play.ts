@@ -1,5 +1,4 @@
 import Cat    from '../animals/cat';
-import Floor  from '../inanimate/floor';
 import Media  from '../constants/media';
 import Mice   from '../animals/mice';
 import Score  from '../metrics/score';
@@ -14,7 +13,8 @@ export default class PlayState extends Phaser.State {
   private cursors: Phaser.CursorKeys;
 
   create() {
-    Floor.render(this.game);
+    this.game.add.tileSprite(0, 0, this.game.width, this.game.height,
+                             Media.FLOOR);
     this.cat   = new Cat(this.game);
     this.mice  = new Mice(this.game);
     this.score = new Score(this.game, this.mice.group);

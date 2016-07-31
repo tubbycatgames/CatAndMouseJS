@@ -1,7 +1,4 @@
 {
-  "dependencies": {
-    "lodash": "registry:npm/lodash#4.0.0+20160723033700"
-  },
   "globalDevDependencies": {
     "phaser": "github:photonstorm/phaser/typescript/typings.json#ac2516f5"
   }
