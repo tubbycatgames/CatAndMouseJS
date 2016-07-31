@@ -6,7 +6,7 @@ export default class Cat {
 
   public sprite: Phaser.Sprite;
 
-  constructor (game: Phaser.Game, private _velocity: number = 150) {
+  constructor (public game: Phaser.Game, private _speed: number = 150) {
     const image = game.cache.getImage(Media.CAT);
     this.sprite = game.add.sprite(
       Random.x(game, image),
@@ -19,28 +19,32 @@ export default class Cat {
   }
 
   move({up, down, left, right}: Phaser.CursorKeys) {
-    this.sprite.body.velocity.x = 0;
+    const velocity = new Phaser.Point(0, 0);
     if (left.isDown) {
-      this.sprite.body.velocity.x = -this._velocity;
+      velocity.x = -this._speed;
     }
     else if (right.isDown) {
-      this.sprite.body.velocity.x = this._velocity;
+      velocity.x = this._speed;
     }
 
-    this.sprite.body.velocity.y = 0;
     if (up.isDown) {
-      this.sprite.body.velocity.y = -this._velocity;
+      velocity.y = -this._speed;
     }
     else if (down.isDown) {
-      this.sprite.body.velocity.y = this._velocity;
+      velocity.y = this._speed;
     }
 
-    if (!this.sprite.body.velocity.isZero()) {
-      const rotation = Math.atan2(this.sprite.body.velocity.y,
-                                  this.sprite.body.velocity.x);
+    if (!velocity.isZero()) {
+      const rotation = Math.atan2(velocity.y, velocity.x);
+      this.sprite.body.velocity = this.game.physics.arcade
+                             .velocityFromRotation(rotation, this._speed, null);
       if (this.sprite.rotation != rotation) {
         this.sprite.rotation = rotation;
       }
     }
+  }
+
+  stop() {
+    this.sprite.body.velocity.setTo(0, 0);
   }
 }

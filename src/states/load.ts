@@ -3,6 +3,7 @@ import States from '../constants/state';
 
 
 export default class LoadState extends Phaser.State {
+
   preload() {
     this.load.audio(Media.MEOW,       'media/audio/meow.ogg');
 

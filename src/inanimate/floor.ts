@@ -4,6 +4,7 @@ import Media from '../constants/media';
 
 
 export default class Floor {
+
   static render(game: Phaser.Game) {
     const image = game.cache.getImage(Media.FLOOR);
     for (let x of _.range(0, game.width, image.width)) {
