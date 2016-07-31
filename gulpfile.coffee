@@ -20,24 +20,25 @@ paths =
   root:    './'
   src:     'src/**/*.ts'
   srcMain: 'src/game.ts'
-  style:   'style/*.styl'
+  srcOut:  'src/game.js'
+  style:   'style/style.styl'
   typings: 'typings.json'
 
 gulp.task 'default', ['serve']
 
 gulp.task 'build', ->
-  return runSequence 'clean', 'typings',
+  return runSequence ['clean', 'typings'],
                      ['index', 'lib', 'media', 'src', 'style']
 
 gulp.task 'clean', ->
   return gulp.src paths.build, read: false
     .pipe clean()
 
-gulp.task 'index', -> return copyToBuild paths.index, paths.build, paths.root
+gulp.task 'index', -> return copyToBuild paths.index, paths.root, paths.build
 
-gulp.task 'lib', -> return copyToBuild paths.lib, paths.build, paths.root
+gulp.task 'lib', ->   return copyToBuild paths.lib, paths.root, paths.build
 
-gulp.task 'media', -> return copyToBuild paths.media, paths.build, paths.root
+gulp.task 'media', -> return copyToBuild paths.media, paths.root, paths.build
 
 gulp.task 'serve', ['build', 'watch'], serve(root: ['build'], port: 8080)
 
@@ -47,11 +48,11 @@ gulp.task 'src', ->
       entries: [paths.srcMain]
     ).plugin tsify, noImplicitAny: true
     .bundle()
-    .pipe source 'src/game.js'
+    .pipe source paths.srcOut
     .pipe buffer()
     .pipe sourcemaps.init loadMaps: true
     .pipe uglify()
-    .pipe sourcemaps.write './'
+    .pipe sourcemaps.write paths.root
     .pipe gulp.dest paths.build
 
 gulp.task 'style', ->
@@ -62,19 +63,13 @@ gulp.task 'style', ->
 gulp.task 'typings', -> return gulp.src(paths.typings).pipe gulpTypings()
 
 gulp.task 'watch', ->
-  gulp.watch paths.lib, ['lib']
-  gulp.watch paths.media, ['media']
-  gulp.watch paths.src, ['src']
-  gulp.watch paths.index, ['index']
-  gulp.watch paths.style, ['style']
+  gulp.watch paths.index,   ['index']
+  gulp.watch paths.lib,     ['lib']
+  gulp.watch paths.media,   ['media']
+  gulp.watch paths.src,     ['src']
+  gulp.watch paths.style,   ['style']
+  gulp.watch paths.typings, ['typings']
 
-###
-# Copy files to build destination
-#
-# @param {String} src Pattern to copy files from
-# @param {String} dest Directory to copy files to
-# @param {String} base Base for copying directory structure (Optional)
-###
-copyToBuild = (src, dest, base) ->
+copyToBuild = (src, base, dest) ->
   return gulp.src src, base: base
     .pipe gulp.dest dest
