@@ -48,6 +48,9 @@ gulp.task 'src', ->
       entries: [paths.srcMain]
     ).plugin tsify, noImplicitAny: true
     .bundle()
+    .on 'error', (err) ->
+      console.error(err.toString())
+      @emit('end')
     .pipe source paths.srcOut
     .pipe buffer()
     .pipe sourcemaps.init loadMaps: true
