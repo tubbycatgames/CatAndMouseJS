@@ -32,7 +32,7 @@ export default class PlayState extends Phaser.State {
   }
 
   update() {
-    this.mice.move();
+    this.mice.move(this.cat.sprite);
     this.cat.move(this.cursors);
     this.physics.arcade.overlap(this.cat.sprite, this.mice.group,
                                 this.kill, null, this);
@@ -43,7 +43,7 @@ export default class PlayState extends Phaser.State {
     mouse.kill();
     this.score.increase();
 
-    if (this.mice.group.countLiving() == 0) {
+    if (this.mice.group.countLiving() === 0) {
       this.game.state.start(States.OVER);
     }
   }

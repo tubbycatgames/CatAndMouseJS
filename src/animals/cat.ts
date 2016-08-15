@@ -20,8 +20,9 @@ export default class Cat {
 
   move({up, down, left, right}: Phaser.CursorKeys) {
     this.sprite.body.velocity.setTo(0, 0);
-    
+
     const velocity = new Phaser.Point(0, 0);
+
     if      (left.isDown)  velocity.x = -this.speed;
     else if (right.isDown) velocity.x = this.speed;
 
@@ -30,7 +31,7 @@ export default class Cat {
 
     if (!velocity.isZero()) {
       const rotation = Math.atan2(velocity.y, velocity.x);
-      if (this.sprite.rotation != rotation) {
+      if (this.sprite.rotation !== rotation) {
         this.sprite.rotation = rotation;
       }
       this.sprite.body.velocity = Animal.getVelocity(this.sprite, this.speed);

@@ -21,7 +21,7 @@ export default class Mice {
     }
   }
 
-  public move () {
+  public move (cat: Phaser.Sprite) {
     this.group.forEachAlive((mouse: Phaser.Sprite) => {
       const mouseAwareness = this.game.add.sprite(mouse.x, mouse.y,
                                                   Media.MOUSE_AWARENESS);
@@ -30,6 +30,8 @@ export default class Mice {
       this.game.physics.arcade.enable(mouseAwareness);
       this.game.physics.arcade.overlap(mouseAwareness, this.group,
                                        this.fleeMouse(mouse), null, this);
+      this.game.physics.arcade.overlap(mouseAwareness, cat,
+                                       this.fleeCat(mouse), null, this);
       mouseAwareness.destroy();
     }, this);
   }
@@ -48,9 +50,17 @@ export default class Mice {
     mouse.body.onWorldBounds.add(this.fleeWall, this);
   }
 
+  private fleeCat(mouse: Phaser.Sprite) {
+    return (awarenessZone: Phaser.Sprite, cat: Phaser.Sprite) => {
+      const angle = this.game.physics.arcade.angleBetween(mouse, cat);
+      mouse.rotation = angle + Math.PI;
+      mouse.body.velocity = Animal.getVelocity(mouse, this.speed);
+    };
+  }
+
   private fleeMouse(mouse: Phaser.Sprite) {
     return (awarenessZone: Phaser.Sprite, otherMouse: Phaser.Sprite) => {
-      if (otherMouse != mouse) {
+      if (otherMouse !== mouse) {
         if (Math.abs(mouse.rotation - otherMouse.rotation) < Math.PI) {
           mouse.rotation = mouse.rotation +
             ((Math.PI / 4) * this.game.rnd.between(0, 1));
