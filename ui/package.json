@@ -4,7 +4,8 @@
   "description": "Cat and Mouse Game in Phaser",
   "main": "src/game.js",
   "scripts": {
-    "gulp": "node_modules/.bin/coffeegulp"
+    "gulp":    "node_modules/.bin/coffeegulp",
+    "typings": "node_modules/.bin/typings"
   },
   "repository": {
     "type": "git",
