@@ -21,11 +21,10 @@ export default class Mice {
     }
   }
 
-  public move (cat: Phaser.Sprite) {
+  public move(cat: Phaser.Sprite) {
     this.group.forEachAlive((mouse: Phaser.Sprite) => {
-      const mouseAwareness = this.game.add.sprite(mouse.x, mouse.y,
+      const mouseAwareness = this.game.add.sprite(mouse.left, mouse.top,
                                                   Media.MOUSE_AWARENESS);
-      mouseAwareness.anchor = mouse.anchor;
 
       this.game.physics.arcade.enable(mouseAwareness);
       this.game.physics.arcade.overlap(mouseAwareness, this.group,

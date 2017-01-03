@@ -7,7 +7,7 @@ export default class Cat {
 
   public sprite: Phaser.Sprite;
 
-  constructor (game: Phaser.Game, private speed: number = 150) {
+  constructor(game: Phaser.Game, private speed: number = 150) {
     const image = game.cache.getImage(Media.CAT);
     this.sprite = game.add.sprite(Random.x(game, image),
                                   Random.y(game, image),

@@ -44,7 +44,7 @@ export default class PlayState extends Phaser.State {
     this.score.increase();
 
     if (this.mice.group.countLiving() === 0) {
-      this.game.state.start(States.OVER);
+      this.game.state.start(States.OVER, false);
     }
   }
 }

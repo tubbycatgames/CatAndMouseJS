@@ -11,11 +11,11 @@ export default class Score {
   constructor(private game: Phaser.Game, private mice: Phaser.Group) {
     this.scoreText = this.game.add.text(20, 20, 'Score: 0', textFormat);
     this.miceLeft = this.game.add.text(this.scoreText.x,
-                                       this.scoreText.y + this.scoreText.height,
+                                       this.scoreText.bottom,
                                        `${this.mice.countLiving()} Mice Left`,
                                        textFormat);
     this.timer = this.game.add.text(this.miceLeft.x,
-                                    this.miceLeft.y + this.miceLeft.height,
+                                    this.miceLeft.bottom,
                                     `${this.seconds()} Seconds Left`,
                                     textFormat);
   }
