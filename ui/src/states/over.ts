@@ -6,7 +6,7 @@ export default class OverState extends Phaser.State {
 
   create() {
     const overText = this.add.text(this.world.centerX, this.world.centerY,
-                                   'Game Over', textFormat)
+                                   'Game Over', textFormat);
     overText.anchor.setTo(.5, .5);
 
     const restartText = this.add.text(overText.x, overText.bottom,

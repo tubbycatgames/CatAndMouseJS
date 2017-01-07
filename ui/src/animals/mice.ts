@@ -5,18 +5,21 @@ import Random from '../tools/random';
 
 export default class Mice {
 
-  group: Phaser.Group;
+  public group: Phaser.Group;
 
   private image: HTMLImageElement;
+  private physics: Phaser.Physics.Arcade;
 
   constructor(private game: Phaser.Game,
               private speed: number = 50,
               mouseCount: number = 20) {
+    this.physics = this.game.physics.arcade;
+
     this.group = this.game.add.group();
     this.group.enableBody = true;
 
     this.image = this.game.cache.getImage(Media.MOUSE);
-    for (let i of Phaser.ArrayUtils.numberArray(0, mouseCount)) {
+    for (let _ of Phaser.ArrayUtils.numberArray(0, mouseCount)) {
       this.createMouse();
     }
   }
@@ -25,12 +28,13 @@ export default class Mice {
     this.group.forEachAlive((mouse: Phaser.Sprite) => {
       const mouseAwareness = this.game.add.sprite(mouse.left, mouse.top,
                                                   Media.MOUSE_AWARENESS);
+      mouseAwareness.anchor.setTo(.5, .5);
 
-      this.game.physics.arcade.enable(mouseAwareness);
-      this.game.physics.arcade.overlap(mouseAwareness, this.group,
-                                       this.fleeMouse(mouse), null, this);
-      this.game.physics.arcade.overlap(mouseAwareness, cat,
-                                       this.fleeCat(mouse), null, this);
+      this.physics.enable(mouseAwareness);
+      this.physics.overlap(mouseAwareness, this.group, this.fleeMouse(mouse),
+                           null, this);
+      this.physics.overlap(mouseAwareness, cat, this.fleeCat(mouse),
+                           null, this);
       mouseAwareness.destroy();
     }, this);
   }
@@ -50,15 +54,15 @@ export default class Mice {
   }
 
   private fleeCat(mouse: Phaser.Sprite) {
-    return (awarenessZone: Phaser.Sprite, cat: Phaser.Sprite) => {
-      const angle = this.game.physics.arcade.angleBetween(mouse, cat);
+    return (_: Phaser.Sprite, cat: Phaser.Sprite) => {
+      const angle = this.physics.angleBetween(mouse, cat);
       mouse.rotation = angle + Math.PI;
       mouse.body.velocity = Animal.getVelocity(mouse, this.speed);
     };
   }
 
   private fleeMouse(mouse: Phaser.Sprite) {
-    return (awarenessZone: Phaser.Sprite, otherMouse: Phaser.Sprite) => {
+    return (_: Phaser.Sprite, otherMouse: Phaser.Sprite) => {
       if (otherMouse !== mouse) {
         if (Math.abs(mouse.rotation - otherMouse.rotation) < Math.PI) {
           mouse.rotation = mouse.rotation +

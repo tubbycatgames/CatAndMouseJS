@@ -7,10 +7,10 @@ import States from '../constants/state';
 
 export default class PlayState extends Phaser.State {
 
-  private score: Score;
   private cat: Cat;
-  private mice: Mice;
   private cursors: Phaser.CursorKeys;
+  private mice: Mice;
+  private score: Score;
 
   create() {
     this.game.add.tileSprite(0, 0, this.game.width, this.game.height,
@@ -20,7 +20,7 @@ export default class PlayState extends Phaser.State {
     this.score = new Score(this.game, this.mice.group);
 
     this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
-        .onUp.add(() => {this.game.paused = !this.game.paused}, this);
+        .onUp.add(() => {this.game.paused = !this.game.paused;}, this);
     this.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -39,7 +39,7 @@ export default class PlayState extends Phaser.State {
     this.score.update();
   }
 
-  kill(player: Phaser.Sprite, mouse: Phaser.Sprite) {
+  kill(_: Phaser.Sprite, mouse: Phaser.Sprite) {
     mouse.kill();
     this.score.increase();
 

@@ -9,6 +9,7 @@ source      = require 'vinyl-source-stream'
 sourcemaps  = require 'gulp-sourcemaps'
 stylus      = require 'gulp-stylus'
 tsify       = require 'tsify'
+tslintify   = require 'tslintify'
 uglify      = require 'gulp-uglify'
 
 
@@ -46,7 +47,11 @@ gulp.task 'src', ->
   return browserify(
       debug: true
       entries: [paths.srcMain]
-    ).plugin tsify, noImplicitAny: true
+    ).plugin tslintify, format: "stylish"
+    .plugin tsify
+    .on 'error', (err) ->
+      console.error(err.toString())
+      @emit('end')
     .bundle()
     .on 'error', (err) ->
       console.error(err.toString())
