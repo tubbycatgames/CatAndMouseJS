@@ -1,12 +1,12 @@
 import States from '../constants/state';
-import textFormat from '../constants/format';
+import format from '../constants/format';
 
 
 export default class MeueState extends Phaser.State {
 
-  create() {
+  public create() {
     const startGame = this.add.text(this.world.centerX, this.world.centerY,
-                                    'Play Game', textFormat);
+                                    'Play Game', format);
     startGame.anchor.setTo(.5, .5);
 
     const spacebar = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);

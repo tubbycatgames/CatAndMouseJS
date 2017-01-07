@@ -1,16 +1,16 @@
-import States     from '../constants/state';
-import textFormat from '../constants/format';
+import States from '../constants/state';
+import format from '../constants/format';
 
 
 export default class OverState extends Phaser.State {
 
-  create() {
+  public create() {
     const overText = this.add.text(this.world.centerX, this.world.centerY,
-                                   'Game Over', textFormat);
+                                   'Game Over', format);
     overText.anchor.setTo(.5, .5);
 
     const restartText = this.add.text(overText.x, overText.bottom,
-                                      'Press Space to Restart', textFormat);
+                                      'Press Space to Restart', format);
     restartText.anchor.setTo(.5, .5);
 
     const spacebar = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);

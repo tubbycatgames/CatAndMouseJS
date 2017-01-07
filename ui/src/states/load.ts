@@ -4,7 +4,7 @@ import States from '../constants/state';
 
 export default class LoadState extends Phaser.State {
 
-  preload() {
+  public preload() {
     this.load.audio(Media.MEOW, 'media/audio/meow.ogg');
 
     this.load.image(Media.CAT,             'media/sprites/Cat.png');
@@ -14,7 +14,7 @@ export default class LoadState extends Phaser.State {
     this.load.image(Media.MOUSE_AWARENESS, 'media/sprites/MouseAwareness.png');
   }
 
-  create() {
+  public create() {
     this.game.state.start(States.MENU);
   }
 }

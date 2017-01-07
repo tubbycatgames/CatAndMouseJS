@@ -1,6 +1,6 @@
-import Animal from './animal';
-import Media  from '../constants/media';
-import Random from '../tools/random';
+import Media    from '../constants/media';
+import Random   from '../tools/random';
+import Velocity from '../tools/velocity';
 
 
 export default class Cat {
@@ -18,7 +18,7 @@ export default class Cat {
     this.sprite.body.collideWorldBounds = true;
   }
 
-  move({up, down, left, right}: Phaser.CursorKeys) {
+  public move({up, down, left, right}: Phaser.CursorKeys) {
     this.sprite.body.velocity.setTo(0, 0);
 
     const velocity = new Phaser.Point(0, 0);
@@ -34,7 +34,8 @@ export default class Cat {
       if (this.sprite.rotation !== rotation) {
         this.sprite.rotation = rotation;
       }
-      this.sprite.body.velocity = Animal.getVelocity(this.sprite, this.speed);
+      this.sprite.body.velocity = Velocity.getFromRotation(this.sprite,
+                                                           this.speed);
     }
   }
 }

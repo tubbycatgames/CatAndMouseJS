@@ -1,6 +1,6 @@
-import Animal from './animal';
-import Media  from '../constants/media';
-import Random from '../tools/random';
+import Media    from '../constants/media';
+import Random   from '../tools/random';
+import Velocity from '../tools/velocity';
 
 
 export default class Mice {
@@ -46,7 +46,7 @@ export default class Mice {
     mouse.anchor.setTo(.5, .5);
 
     mouse.rotation = Phaser.Math.degToRad(this.game.rnd.between(0, 360));
-    mouse.body.velocity = Animal.getVelocity(mouse, this.speed);
+    mouse.body.velocity = Velocity.getFromRotation(mouse, this.speed);
 
     mouse.body.collideWorldBounds = true;
     mouse.body.onWorldBounds = new Phaser.Signal();
@@ -57,7 +57,7 @@ export default class Mice {
     return (_: Phaser.Sprite, cat: Phaser.Sprite) => {
       const angle = this.physics.angleBetween(mouse, cat);
       mouse.rotation = angle + Math.PI;
-      mouse.body.velocity = Animal.getVelocity(mouse, this.speed);
+      mouse.body.velocity = Velocity.getFromRotation(mouse, this.speed);
     };
   }
 
@@ -67,7 +67,7 @@ export default class Mice {
         if (Math.abs(mouse.rotation - otherMouse.rotation) < Math.PI) {
           mouse.rotation = mouse.rotation +
             ((Math.PI / 4) * this.game.rnd.between(0, 1));
-          mouse.body.velocity = Animal.getVelocity(mouse, this.speed);
+          mouse.body.velocity = Velocity.getFromRotation(mouse, this.speed);
         }
       }
     };
@@ -85,6 +85,6 @@ export default class Mice {
     mouse.rotation = Phaser.Math.degToRad(
       this.game.rnd.between(range[0], range[1])
     );
-    mouse.body.velocity = Animal.getVelocity(mouse, this.speed);
+    mouse.body.velocity = Velocity.getFromRotation(mouse, this.speed);
   }
 }

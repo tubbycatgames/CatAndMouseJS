@@ -12,7 +12,7 @@ export default class PlayState extends Phaser.State {
   private mice: Mice;
   private score: Score;
 
-  create() {
+  public create() {
     this.game.add.tileSprite(0, 0, this.game.width, this.game.height,
                              Media.FLOOR);
     this.cat   = new Cat(this.game);
@@ -31,7 +31,7 @@ export default class PlayState extends Phaser.State {
     }, this);
   }
 
-  update() {
+  public update() {
     this.mice.move(this.cat.sprite);
     this.cat.move(this.cursors);
     this.physics.arcade.overlap(this.cat.sprite, this.mice.group,
@@ -39,7 +39,7 @@ export default class PlayState extends Phaser.State {
     this.score.update();
   }
 
-  kill(_: Phaser.Sprite, mouse: Phaser.Sprite) {
+  private kill(_: Phaser.Sprite, mouse: Phaser.Sprite) {
     mouse.kill();
     this.score.increase();
 
