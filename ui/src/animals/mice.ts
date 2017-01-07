@@ -10,6 +10,9 @@ export default class Mice {
   private image: HTMLImageElement;
   private physics: Phaser.Physics.Arcade;
 
+  private awarenessXOffset: number;
+  private awarenessYOffset: number;
+
   constructor(private game: Phaser.Game,
               private speed: number = 50,
               mouseCount: number = 20) {
@@ -22,13 +25,20 @@ export default class Mice {
     for (let _ of Phaser.ArrayUtils.numberArray(0, mouseCount)) {
       this.createMouse();
     }
+
+    const awarenessImage = this.game.cache.getImage(Media.MOUSE_AWARENESS);
+    this.awarenessXOffset = (awarenessImage.width - this.image.width) / 2;
+    this.awarenessYOffset = (awarenessImage.height - this.image.height) / 2;
   }
 
   public move(cat: Phaser.Sprite) {
     this.group.forEachAlive((mouse: Phaser.Sprite) => {
-      const mouseAwareness = this.game.add.sprite(mouse.left, mouse.top,
-                                                  Media.MOUSE_AWARENESS);
-      mouseAwareness.anchor.setTo(.5, .5);
+      const mouseAwareness = this.game.add.sprite(
+                                             mouse.left - this.awarenessXOffset,
+                                             mouse.top - this.awarenessYOffset,
+                                             Media.MOUSE_AWARENESS);
+      mouseAwareness.anchor = mouse.anchor;
+      mouseAwareness.rotation = mouse.rotation;
 
       this.physics.enable(mouseAwareness);
       this.physics.overlap(mouseAwareness, this.group, this.fleeMouse(mouse),
