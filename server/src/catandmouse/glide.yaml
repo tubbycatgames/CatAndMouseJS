@@ -1,4 +1,0 @@
-package: .
-import:
-- package: github.com/gin-gonic/gin
-  version: ^0.6.0
