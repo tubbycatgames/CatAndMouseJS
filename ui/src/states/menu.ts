@@ -1,12 +1,19 @@
+import Format from '../constants/format';
 import States from '../constants/state';
-import format from '../constants/format';
 
 
-export default class MeueState extends Phaser.State {
+export default class MenuState extends Phaser.State {
 
   public create() {
-    const startGame = this.add.text(this.world.centerX, this.world.centerY,
-                                    'Play Game', format);
+    const centerX = this.world.centerX;
+    const title = this.add.text(centerX, this.world.centerY,
+                                'Cat And Mouse',
+                                Format.TITLE);
+    title.anchor.setTo(.5, .5);
+
+    const startGame = this.add.text(centerX, title.bottom,
+                                    'Press Spacebar To Start Hunting!',
+                                    Format.STANDARD);
     startGame.anchor.setTo(.5, .5);
 
     const spacebar = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);

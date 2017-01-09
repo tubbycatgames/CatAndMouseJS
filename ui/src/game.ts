@@ -8,7 +8,7 @@ import OverState from './states/over';
 import PlayState from './states/play';
 
 
-const game = new Phaser.Game('99', '99');
+const game = new Phaser.Game('99', '99', Phaser.CANVAS);
 game.state.add(States.BOOT, BootState);
 game.state.add(States.LOAD, LoadState);
 game.state.add(States.MENU, MenuState);

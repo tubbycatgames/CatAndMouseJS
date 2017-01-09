@@ -1,86 +1,55 @@
 import Media    from '../constants/media';
 import Random   from '../tools/random';
-import Velocity from '../tools/velocity';
 
 
 export default class Mice {
 
-  public group: Phaser.Group;
-
-  private image: HTMLImageElement;
+  private mice: Phaser.Group;
   private physics: Phaser.Physics.Arcade;
 
-  private awarenessXOffset: number;
-  private awarenessYOffset: number;
-
-  constructor(private game: Phaser.Game,
-              private speed: number = 50,
-              mouseCount: number = 20) {
+  constructor(private game: Phaser.Game, speed: number, count: number,
+              private awareness: number) {
     this.physics = this.game.physics.arcade;
 
-    this.group = this.game.add.group();
-    this.group.enableBody = true;
+    this.mice = this.game.add.group();
+    this.mice.enableBody = true;
 
-    this.image = this.game.cache.getImage(Media.MOUSE);
-    for (let _ of Phaser.ArrayUtils.numberArray(0, mouseCount)) {
-      this.createMouse();
+    const image = this.game.cache.getImage(Media.MOUSE);
+    for (let _ of Phaser.ArrayUtils.numberArray(1, count)) {
+      this.createMouse(image, speed);
     }
+  }
 
-    const awarenessImage = this.game.cache.getImage(Media.MOUSE_AWARENESS);
-    this.awarenessXOffset = (awarenessImage.width - this.image.width) / 2;
-    this.awarenessYOffset = (awarenessImage.height - this.image.height) / 2;
+  public getMiceGroup(): Phaser.Group {
+    return this.mice;
   }
 
   public move(cat: Phaser.Sprite) {
-    this.group.forEachAlive((mouse: Phaser.Sprite) => {
-      const mouseAwareness = this.game.add.sprite(
-                                             mouse.left - this.awarenessXOffset,
-                                             mouse.top - this.awarenessYOffset,
-                                             Media.MOUSE_AWARENESS);
-      mouseAwareness.anchor = mouse.anchor;
-      mouseAwareness.rotation = mouse.rotation;
-
-      this.physics.enable(mouseAwareness);
-      this.physics.overlap(mouseAwareness, this.group, this.fleeMouse(mouse),
-                           null, this);
-      this.physics.overlap(mouseAwareness, cat, this.fleeCat(mouse),
-                           null, this);
-      mouseAwareness.destroy();
+    this.mice.forEachAlive((mouse: Phaser.Sprite) => {
+      this.fleeMice(mouse);
+      this.fleeCat(mouse, cat);
     }, this);
   }
 
-  private createMouse() {
-    const mouse = this.group.create(Random.x(this.game, this.image),
-                                    Random.y(this.game, this.image),
-                                    Media.MOUSE);
-    mouse.anchor.setTo(.5, .5);
+  public kill(mouse: Phaser.Sprite): number {
+    mouse.kill();
+    return this.mice.countLiving();
+  }
 
-    mouse.rotation = Phaser.Math.degToRad(this.game.rnd.between(0, 360));
-    mouse.body.velocity = Velocity.getFromRotation(mouse, this.speed);
+  private createMouse(image: HTMLImageElement, speed: number) {
+    const mouse = this.mice.create(Random.x(this.game, image),
+                                   Random.y(this.game, image),
+                                   Media.MOUSE);
+    mouse.anchor.setTo(.5, .5);
 
     mouse.body.collideWorldBounds = true;
     mouse.body.onWorldBounds = new Phaser.Signal();
     mouse.body.onWorldBounds.add(this.fleeWall, this);
-  }
 
-  private fleeCat(mouse: Phaser.Sprite) {
-    return (_: Phaser.Sprite, cat: Phaser.Sprite) => {
-      const angle = this.physics.angleBetween(mouse, cat);
-      mouse.rotation = angle + Math.PI;
-      mouse.body.velocity = Velocity.getFromRotation(mouse, this.speed);
-    };
-  }
+    mouse.events.onKilled.add(this.afterKill, this);
 
-  private fleeMouse(mouse: Phaser.Sprite) {
-    return (_: Phaser.Sprite, otherMouse: Phaser.Sprite) => {
-      if (otherMouse !== mouse) {
-        if (Math.abs(mouse.rotation - otherMouse.rotation) < Math.PI) {
-          mouse.rotation = mouse.rotation +
-            ((Math.PI / 4) * this.game.rnd.between(0, 1));
-          mouse.body.velocity = Velocity.getFromRotation(mouse, this.speed);
-        }
-      }
-    };
+    mouse.body.speed = speed;
+    this.adjustMouse(mouse, Math.random() * Phaser.Math.PI2);
   }
 
   private fleeWall(mouse: Phaser.Sprite, up: boolean, down: boolean,
@@ -92,9 +61,36 @@ export default class Mice {
     else if (right) range = [105, 255];
     else            range = [0, 0];
 
-    mouse.rotation = Phaser.Math.degToRad(
+    this.adjustMouse(mouse, Phaser.Math.degToRad(
       this.game.rnd.between(range[0], range[1])
-    );
-    mouse.body.velocity = Velocity.getFromRotation(mouse, this.speed);
+    ));
+  }
+
+  private afterKill(mouse: Phaser.Sprite) {
+    mouse.visible = true;
+    mouse.loadTexture(Media.DEAD_MOUSE);
+  }
+
+  private fleeMice(mouse: Phaser.Sprite) {
+    this.mice.forEachAlive((otherMouse: Phaser.Sprite) => {
+      if (mouse !== otherMouse) {
+        if (this.physics.distanceBetween(mouse, otherMouse) < this.awareness) {
+          this.adjustMouse(mouse,
+            this.physics.angleBetween(mouse, otherMouse) + Math.PI);
+        }
+      }
+    }, this);
+  }
+
+  private fleeCat(mouse: Phaser.Sprite, cat: Phaser.Sprite) {
+    if (this.physics.distanceBetween(mouse, cat) < this.awareness) {
+      this.adjustMouse(mouse, this.physics.angleBetween(mouse, cat) + Math.PI);
+    }
+  }
+
+  private adjustMouse(mouse: Phaser.Sprite, rotation: number) {
+    mouse.rotation = rotation;
+    this.physics.velocityFromRotation(rotation, mouse.body.speed,
+                                                mouse.body.velocity);
   }
 }

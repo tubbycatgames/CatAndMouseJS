@@ -13,38 +13,50 @@ export default class PlayState extends Phaser.State {
   private score: Score;
 
   public create() {
+    const catSpeed = 150;
+    const mouseSpeed = 50;
+    const mouseCount = 20;
+    const mouseAwareness = 50;
+    const gameMillis = 30000;
+
     this.game.add.tileSprite(0, 0, this.game.width, this.game.height,
                              Media.FLOOR);
-    this.cat   = new Cat(this.game);
-    this.mice  = new Mice(this.game);
-    this.score = new Score(this.game, this.mice.group);
 
-    this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
-        .onUp.add(() => {this.game.paused = !this.game.paused;}, this);
-    this.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
+    this.cat   = new Cat(this.game, catSpeed);
+    this.mice  = new Mice(this.game, mouseSpeed, mouseCount, mouseAwareness);
+    this.score = new Score(this.game, mouseCount);
+
+    this.configurePause();
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.sound.play(Media.MEOW);
 
-    this.game.time.events.add(30000, () => {
+    this.game.time.events.add(gameMillis, () => {
       this.game.state.start(States.OVER);
     }, this);
   }
 
   public update() {
-    this.mice.move(this.cat.sprite);
     this.cat.move(this.cursors);
-    this.physics.arcade.overlap(this.cat.sprite, this.mice.group,
-                                this.kill, null, this);
+
+    const catSprite = this.cat.getSprite();
+    this.mice.move(catSprite);
+    this.physics.arcade.overlap(catSprite, this.mice.getMiceGroup(), this.kill,
+                                null, this);
     this.score.update();
   }
 
   private kill(_: Phaser.Sprite, mouse: Phaser.Sprite) {
-    mouse.kill();
     this.score.increase();
-
-    if (this.mice.group.countLiving() === 0) {
+    const remainingMice = this.mice.kill(mouse);
+    if (remainingMice === 0) {
       this.game.state.start(States.OVER, false);
     }
+  }
+
+  private configurePause() {
+    this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+        .onUp.add(() => {this.game.paused = !this.game.paused;}, this);
+    this.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
   }
 }

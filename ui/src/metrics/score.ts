@@ -1,4 +1,4 @@
-import format from '../constants/format';
+import Format from '../constants/format';
 
 
 export default class Score {
@@ -8,16 +8,16 @@ export default class Score {
   private miceLeft: Phaser.Text;
   private timer: Phaser.Text;
 
-  constructor(private game: Phaser.Game, private mice: Phaser.Group) {
-    this.scoreText = this.game.add.text(20, 20, 'Score: 0', format);
+  constructor(private game: Phaser.Game, private remaining: number) {
+    this.scoreText = this.game.add.text(20, 20, 'Score: 0', Format.STANDARD);
     this.miceLeft = this.game.add.text(this.scoreText.x,
                                        this.scoreText.bottom,
-                                       `${this.mice.countLiving()} Mice Left`,
-                                       format);
+                                       `${this.remaining} Mice Left`,
+                                       Format.STANDARD);
     this.timer = this.game.add.text(this.miceLeft.x,
                                     this.miceLeft.bottom,
                                     `${this.seconds()} Seconds Left`,
-                                    format);
+                                    Format.STANDARD);
   }
 
   public update() {
@@ -26,7 +26,8 @@ export default class Score {
 
   public increase() {
     this.scoreText.setText(`Score: ${this.score += 10}`);
-    this.miceLeft.setText(`${this.mice.countLiving()} Mice Left`);
+    this.remaining -= 1;
+    this.miceLeft.setText(`${this.remaining} Mice Left`);
   }
 
   private seconds() {

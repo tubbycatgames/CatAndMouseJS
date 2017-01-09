@@ -1,13 +1,12 @@
 import Media    from '../constants/media';
 import Random   from '../tools/random';
-import Velocity from '../tools/velocity';
 
 
 export default class Cat {
 
-  public sprite: Phaser.Sprite;
+  private sprite: Phaser.Sprite;
 
-  constructor(game: Phaser.Game, private speed: number = 150) {
+  constructor(game: Phaser.Game, private speed: number) {
     const image = game.cache.getImage(Media.CAT);
     this.sprite = game.add.sprite(Random.x(game, image),
                                   Random.y(game, image),
@@ -18,9 +17,11 @@ export default class Cat {
     this.sprite.body.collideWorldBounds = true;
   }
 
-  public move({up, down, left, right}: Phaser.CursorKeys) {
-    this.sprite.body.velocity.setTo(0, 0);
+  public getSprite(): Phaser.Sprite {
+    return this.sprite;
+  }
 
+  public move({up, down, left, right}: Phaser.CursorKeys) {
     const velocity = new Phaser.Point(0, 0);
 
     if      (left.isDown)  velocity.x = -this.speed;
@@ -29,13 +30,18 @@ export default class Cat {
     if      (up.isDown)   velocity.y = -this.speed;
     else if (down.isDown) velocity.y = this.speed;
 
-    if (!velocity.isZero()) {
+    if (velocity.isZero()) {
+      if (!this.sprite.body.velocity.isZero()) {
+        this.sprite.body.velocity = velocity;
+      }
+    }
+    else {
       const rotation = Math.atan2(velocity.y, velocity.x);
       if (this.sprite.rotation !== rotation) {
         this.sprite.rotation = rotation;
       }
-      this.sprite.body.velocity = Velocity.getFromRotation(this.sprite,
-                                                           this.speed);
+      this.sprite.game.physics.arcade
+        .velocityFromRotation(rotation, this.speed, this.sprite.body.velocity);
     }
   }
 }
