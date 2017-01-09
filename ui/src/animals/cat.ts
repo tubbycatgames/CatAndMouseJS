@@ -21,7 +21,19 @@ export default class Cat {
     return this.sprite;
   }
 
-  public move({up, down, left, right}: Phaser.CursorKeys) {
+  public move(keys: Phaser.CursorKeys) {
+    const velocity = this.getVelocity(keys);
+    if (velocity.isZero()) {
+      if (!this.sprite.body.velocity.isZero()) {
+        this.sprite.body.velocity = velocity;
+      }
+    }
+    else {
+      this.adjustCat(velocity);
+    }
+  }
+
+  private getVelocity({up, down, left, right}: Phaser.CursorKeys) {
     const velocity = new Phaser.Point(0, 0);
 
     if      (left.isDown)  velocity.x = -this.speed;
@@ -30,18 +42,15 @@ export default class Cat {
     if      (up.isDown)   velocity.y = -this.speed;
     else if (down.isDown) velocity.y = this.speed;
 
-    if (velocity.isZero()) {
-      if (!this.sprite.body.velocity.isZero()) {
-        this.sprite.body.velocity = velocity;
-      }
+    return velocity;
+  }
+
+  private adjustCat(velocity: Phaser.Point) {
+    const rotation = Math.atan2(velocity.y, velocity.x);
+    if (this.sprite.rotation !== rotation) {
+      this.sprite.rotation = rotation;
     }
-    else {
-      const rotation = Math.atan2(velocity.y, velocity.x);
-      if (this.sprite.rotation !== rotation) {
-        this.sprite.rotation = rotation;
-      }
-      this.sprite.game.physics.arcade
-        .velocityFromRotation(rotation, this.speed, this.sprite.body.velocity);
-    }
+    this.sprite.game.physics.arcade
+      .velocityFromRotation(rotation, this.speed, this.sprite.body.velocity);
   }
 }
