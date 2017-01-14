@@ -1,4 +1,5 @@
 import Cat from '../animals/cat';
+import KeyBinder from '../tools/key_binder';
 import Media from '../constants/media';
 import Mice from '../animals/mice';
 import Score from '../metrics/score';
@@ -26,8 +27,11 @@ export default class PlayState extends Phaser.State {
     this.mice  = new Mice(this.game, mouseSpeed, mouseCount, mouseAwareness);
     this.score = new Score(this.game, mouseCount);
 
-    this.configurePause();
-    this.cursors = this.input.keyboard.createCursorKeys();
+    const keyBinder = new KeyBinder(this.game);
+    keyBinder.bindKeyToPause(Phaser.KeyCode.SPACEBAR);
+    keyBinder.bindKeyToRestart(Phaser.KeyCode.R);
+    keyBinder.bindKeyToState(Phaser.KeyCode.ESC, States.MENU);
+    this.cursors = keyBinder.getCursorKeys();
 
     this.sound.play(Media.MEOW);
 
@@ -52,11 +56,5 @@ export default class PlayState extends Phaser.State {
     if (remainingMice === 0) {
       this.game.state.start(States.OVER, false);
     }
-  }
-
-  private configurePause() {
-    this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
-        .onUp.add(() => {this.game.paused = !this.game.paused;}, this);
-    this.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
   }
 }

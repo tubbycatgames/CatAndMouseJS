@@ -1,3 +1,4 @@
+import KeyBinder from '../tools/key_binder';
 import Menu from '../tools/menu';
 import States from '../constants/state';
 
@@ -11,7 +12,9 @@ export default class OverState extends Phaser.State {
     menu.addRow('Press Spacebar To Restart!');
     menu.addRow('Press Esc To Return To The Main Menu');
 
-    menu.bindKeyToState(Phaser.KeyCode.SPACEBAR, States.PLAY);
-    menu.bindKeyToState(Phaser.KeyCode.ESC, States.MENU);
+
+    const keyBinder = new KeyBinder(this.game);
+    keyBinder.bindKeyToState(Phaser.KeyCode.SPACEBAR, States.PLAY);
+    keyBinder.bindKeyToState(Phaser.KeyCode.ESC, States.MENU);
   }
 }

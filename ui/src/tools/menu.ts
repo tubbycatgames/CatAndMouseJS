@@ -32,14 +32,4 @@ export default class Menu {
   public addHelpRow(text: string) {
     this.addRow(text, Format.MENU_HELP);
   }
-
-  public bindKeyToState(key: number, state: string) {
-    this.bindKey(key, () => {this.game.state.start(state);});
-  }
-
-  private bindKey(key: number, action: Function) {
-    const newKey = this.game.input.keyboard.addKey(key);
-    this.game.input.keyboard.addKeyCapture(key);
-    newKey.onUp.add(action, this);
-  }
 }
