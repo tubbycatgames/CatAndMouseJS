@@ -4,20 +4,38 @@ import States from '../constants/state';
 
 export default class LoadState extends Phaser.State {
 
+  private audioBase: string = 'media/audio/';
+  private imageBase: string = 'media/sprites/';
+
   public preload() {
-    this.load.audio(Media.MEOW, 'media/audio/meow.ogg');
-
-    this.load.image(Media.CAT,        'media/sprites/Cat.png');
-    this.load.image(Media.FLOOR,      'media/sprites/TileFloor.png');
-
-    this.load.image(Media.MICE.BLACK, 'media/sprites/BlackMouse.png');
-    this.load.image(Media.MICE.BROWN, 'media/sprites/BrownMouse.png');
-    this.load.image(Media.MICE.DEAD,  'media/sprites/DeadMouse.png');
-    this.load.image(Media.MICE.GREY,  'media/sprites/GreyMouse.png');
-    this.load.image(Media.MICE.WHITE, 'media/sprites/WhiteMouse.png');
+    this.loadAudio();
+    this.loadImages();
   }
 
   public create() {
     this.game.state.start(States.MENU);
+  }
+
+  private loadAudio() {
+    this.loadAudioFile(Media.MEOW, 'meow.ogg');
+  }
+
+  private loadAudioFile(key: string, filename: string) {
+    this.load.audio(key, this.audioBase + filename);
+  }
+
+  private loadImages() {
+    this.loadImageFile(Media.CAT, 'Cat.png');
+    this.loadImageFile(Media.FLOOR, 'TileFloor.png');
+
+    this.loadImageFile(Media.MICE.BLACK, 'BlackMouse.png');
+    this.loadImageFile(Media.MICE.BROWN, 'BrownMouse.png');
+    this.loadImageFile(Media.MICE.DEAD, 'DeadMouse.png');
+    this.loadImageFile(Media.MICE.GREY, 'GreyMouse.png');
+    this.loadImageFile(Media.MICE.WHITE, 'WhiteMouse.png');
+  }
+
+  private loadImageFile(key: string, filename: string) {
+    this.load.image(key, this.imageBase + filename);
   }
 }
