@@ -8,7 +8,8 @@ export default class ControlsState extends Phaser.State {
     const menu = new Menu(this.game);
 
     menu.addTitle('Controls');
-    menu.addRow('Press Esc Button To Return To Menu');
+    menu.addHelpRow('Press Esc Button To Return To Menu');
+
     menu.addRow('Left Key:  Go Left');
     menu.addRow('Right Key: Go Right');
     menu.addRow('Up Key:    Go Up');

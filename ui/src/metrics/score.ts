@@ -9,15 +9,15 @@ export default class Score {
   private timer: Phaser.Text;
 
   constructor(private game: Phaser.Game, private remaining: number) {
-    this.scoreText = this.game.add.text(20, 20, 'Score: 0', Format.STANDARD);
+    this.scoreText = this.game.add.text(20, 20, 'Score: 0', Format.METRICS);
     this.miceLeft = this.game.add.text(this.scoreText.x,
                                        this.scoreText.bottom,
                                        `${this.remaining} Mice Left`,
-                                       Format.STANDARD);
+                                       Format.METRICS);
     this.timer = this.game.add.text(this.miceLeft.x,
                                     this.miceLeft.bottom,
                                     `${this.seconds()} Seconds Left`,
-                                    Format.STANDARD);
+                                    Format.METRICS);
   }
 
   public update() {
