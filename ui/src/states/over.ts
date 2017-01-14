@@ -9,8 +9,9 @@ export default class OverState extends Phaser.State {
 
     menu.addTitle('Game Over');
     menu.addRow('Press Spacebar To Restart!');
+    menu.addRow('Press Esc To Return To The Main Menu');
 
-    menu.bindKey(Phaser.KeyCode.SPACEBAR,
-                 () => {this.game.state.start(States.PLAY);});
+    menu.bindKeyToState(Phaser.KeyCode.SPACEBAR, States.PLAY);
+    menu.bindKeyToState(Phaser.KeyCode.ESC, States.MENU);
   }
 }

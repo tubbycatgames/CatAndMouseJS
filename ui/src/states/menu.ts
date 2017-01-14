@@ -11,9 +11,7 @@ export default class MenuState extends Phaser.State {
     menu.addRow('Press Spacebar To Start Hunting!');
     menu.addRow('Press C To See Controls');
 
-    menu.bindKey(Phaser.KeyCode.SPACEBAR,
-                () => {this.game.state.start(States.PLAY);});
-    menu.bindKey(Phaser.KeyCode.C,
-                 () => {this.game.state.start(States.CONTROLS);});
+    menu.bindKeyToState(Phaser.KeyCode.SPACEBAR, States.PLAY);
+    menu.bindKeyToState(Phaser.KeyCode.C, States.CONTROLS);
   }
 }

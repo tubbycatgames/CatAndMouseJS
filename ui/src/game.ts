@@ -1,12 +1,12 @@
 ///<reference path='../typings/index'/>
 
-import States    from './constants/state';
 import BootState from './states/boot';
 import ControlsState from './states/controls';
 import LoadState from './states/load';
 import MenuState from './states/menu';
 import OverState from './states/over';
 import PlayState from './states/play';
+import States from './constants/state';
 
 
 const game = new Phaser.Game('99', '99', Phaser.CANVAS);

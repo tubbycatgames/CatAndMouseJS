@@ -1,4 +1,4 @@
-import Media  from '../constants/media';
+import Media from '../constants/media';
 import States from '../constants/state';
 
 

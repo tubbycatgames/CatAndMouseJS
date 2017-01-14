@@ -1,5 +1,5 @@
-import Media    from '../constants/media';
-import Random   from '../tools/random';
+import Media  from '../constants/media';
+import Random from '../tools/random';
 
 
 export default class Mice {

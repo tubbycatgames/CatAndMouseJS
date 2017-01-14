@@ -16,7 +16,6 @@ export default class ControlsState extends Phaser.State {
     menu.addRow('Down Key:  Go Down');
     menu.addRow('Spacebar:  Pause');
 
-    menu.bindKey(Phaser.KeyCode.ESC,
-                 () => {this.game.state.start(States.MENU);});
+    menu.bindKeyToState(Phaser.KeyCode.ESC, States.MENU);
   }
 }

@@ -1,7 +1,7 @@
-import Cat    from '../animals/cat';
-import Media  from '../constants/media';
-import Mice   from '../animals/mice';
-import Score  from '../metrics/score';
+import Cat from '../animals/cat';
+import Media from '../constants/media';
+import Mice from '../animals/mice';
+import Score from '../metrics/score';
 import States from '../constants/state';
 
 
