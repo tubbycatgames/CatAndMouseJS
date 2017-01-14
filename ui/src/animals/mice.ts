@@ -7,6 +7,10 @@ export default class Mice {
   private mice: Phaser.Group;
   private physics: Phaser.Physics.Arcade;
 
+  private types: string[] = [
+    Media.MICE.BLACK, Media.MICE.BROWN, Media.MICE.GREY, Media.MICE.WHITE
+  ];
+
   constructor(private game: Phaser.Game, speed: number, count: number,
               private awareness: number) {
     this.physics = this.game.physics.arcade;
@@ -14,7 +18,7 @@ export default class Mice {
     this.mice = this.game.add.group();
     this.mice.enableBody = true;
 
-    const image = this.game.cache.getImage(Media.MOUSE);
+    const image = this.game.cache.getImage(Media.MICE.BROWN);
     for (let _ of Phaser.ArrayUtils.numberArray(1, count)) {
       this.createMouse(image, speed);
     }
@@ -37,9 +41,10 @@ export default class Mice {
   }
 
   private createMouse(image: HTMLImageElement, speed: number) {
+    const type = this.types[this.game.rnd.between(0, this.types.length-1)];
     const mouse = this.mice.create(Random.x(this.game, image),
                                    Random.y(this.game, image),
-                                   Media.MOUSE);
+                                   type);
     mouse.anchor.setTo(.5, .5);
 
     mouse.body.collideWorldBounds = true;
@@ -68,7 +73,7 @@ export default class Mice {
 
   private afterKill(mouse: Phaser.Sprite) {
     mouse.visible = true;
-    mouse.loadTexture(Media.DEAD_MOUSE);
+    mouse.loadTexture(Media.MICE.DEAD);
   }
 
   private fleeMice(mouse: Phaser.Sprite) {
