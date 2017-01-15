@@ -10,15 +10,15 @@ export default class ControlsState extends Phaser.State {
 
     menu.addTitle('Controls');
     menu.addHelpRow('Press Esc Button To Return To Menu');
-
-    menu.addRow('Left Key:  Go Left');
-    menu.addRow('Right Key: Go Right');
-    menu.addRow('Up Key:    Go Up');
-    menu.addRow('Down Key:  Go Down');
-
-    menu.addRow('Spacebar:  Pause');
-    menu.addRow('R Key:     Restart');
-    menu.addRow('Esc Key:   Return To Main Menu');
+    menu.addBlankRow();
+    menu.addTextRow('Left Key: Move Left');
+    menu.addTextRow('Right Key: Move Right');
+    menu.addTextRow('Up Key: Move Up');
+    menu.addTextRow('Down Key: Move Down');
+    menu.addBlankRow();
+    menu.addTextRow('Spacebar: Pause');
+    menu.addTextRow('R Key: Restart');
+    menu.addTextRow('Esc Key: Return To Main Menu');
 
     const keyBinder = new KeyBinder(this.game);
     keyBinder.bindKeyToState(Phaser.KeyCode.ESC, States.MENU);

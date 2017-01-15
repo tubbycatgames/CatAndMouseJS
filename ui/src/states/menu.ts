@@ -9,8 +9,8 @@ export default class MenuState extends Phaser.State {
     const menu = new Menu(this.game);
 
     menu.addTitle('Cat And Mouse',);
-    menu.addRow('Press Spacebar To Start Hunting!');
-    menu.addRow('Press C To See Controls');
+    menu.addTextRow('Press Spacebar To Start Hunting!');
+    menu.addTextRow('Press C To See Controls');
 
     const keyBinder = new KeyBinder(this.game);
     keyBinder.bindKeyToState(Phaser.KeyCode.SPACEBAR, States.PLAY);

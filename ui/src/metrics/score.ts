@@ -25,7 +25,9 @@ export default class Score {
   }
 
   public increase() {
-    this.scoreText.setText(`Score: ${this.score += 10}`);
+    this.score += 10;
+    this.scoreText.setText(`Score: ${this.score}`);
+
     this.remaining -= 1;
     this.miceLeft.setText(`${this.remaining} Mice Left`);
   }

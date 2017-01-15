@@ -8,27 +8,30 @@ export default class Menu {
   constructor(private game: Phaser.Game, private spacing: number = 10) {}
 
   public addTitle(text: string) {
-    const world = this.game.world;
-    const title = this.game.add.text(world.centerX, world.centerY / 2,
-                                     text, Format.MENU_TITLE);
-    title.anchor.setTo(.5, .5);
-    this.rows.push(title);
+    this.addRow(this.game.world.centerY, text, Format.MENU_TITLE);
   }
 
-  public addRow(text: string, format: Object = Format.MENU_STANDARD) {
+  public addTextRow(text: string, format: Object = Format.MENU_STANDARD) {
     if (this.rows.length == 0) {
       this.addTitle(text);
     }
     else {
       const y = this.rows[this.rows.length - 1].bottom + this.spacing;
-      const row = this.game.add.text(this.game.world.centerX, y,
-                                     text, format);
-      row.anchor.setTo(.5, .5);
-      this.rows.push(row);
+      this.addRow(y, text, format);
     }
   }
 
   public addHelpRow(text: string) {
-    this.addRow(text, Format.MENU_HELP);
+    this.addTextRow(text, Format.MENU_HELP);
+  }
+
+  public addBlankRow() {
+    this.addTextRow('');
+  }
+
+  private addRow(y: number, text: string, format: Object) {
+    const row = this.game.add.text(this.game.world.centerX, y, text, format);
+    row.anchor.setTo(.5, .5);
+    this.rows.push(row);
   }
 }
