@@ -37,11 +37,11 @@ export default class Cat {
                        left, right}: Phaser.CursorKeys): Phaser.Point {
     const velocity = new Phaser.Point(0, 0);
 
-    if      (left.isDown)  velocity.x = -this.speed;
-    else if (right.isDown) velocity.x = this.speed;
+    if      (left.isDown)  {velocity.x = -this.speed;}
+    else if (right.isDown) {velocity.x = this.speed;}
 
-    if      (up.isDown)   velocity.y = -this.speed;
-    else if (down.isDown) velocity.y = this.speed;
+    if      (up.isDown)   {velocity.y = -this.speed;}
+    else if (down.isDown) {velocity.y = this.speed;}
 
     return velocity;
   }

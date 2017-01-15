@@ -12,7 +12,7 @@ export default class Menu {
   }
 
   public addTextRow(text: string, format: Object = Format.MENU_STANDARD) {
-    if (this.rows.length == 0) {
+    if (this.rows.length === 0) {
       this.addTitle(text);
     }
     else {

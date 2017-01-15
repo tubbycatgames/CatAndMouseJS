@@ -10,6 +10,7 @@ import States from './constants/state';
 
 
 const game = new Phaser.Game('99', '99', Phaser.CANVAS);
+
 game.state.add(States.BOOT, BootState);
 game.state.add(States.CONTROLS, ControlsState);
 game.state.add(States.LOAD, LoadState);

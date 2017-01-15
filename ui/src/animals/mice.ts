@@ -60,11 +60,11 @@ export default class Mice {
   private fleeWall(mouse: Phaser.Sprite, up: boolean, down: boolean,
                                          left: boolean, right: boolean) {
     let range: number[];
-    if (up)         range = [15, 165];
-    else if (down)  range = [-165, -15];
-    else if (left)  range = [-75, 75];
-    else if (right) range = [105, 255];
-    else            range = [0, 0];
+    if (up)         {range = [15, 165];}
+    else if (down)  {range = [-165, -15];}
+    else if (left)  {range = [-75, 75];}
+    else if (right) {range = [105, 255];}
+    else            {range = [0, 0];}
 
     this.adjustMouse(mouse, Phaser.Math.degToRad(
       this.game.rnd.between(range[0], range[1])
