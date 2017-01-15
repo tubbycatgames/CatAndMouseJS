@@ -4,5 +4,5 @@ export default {
   LOAD: 'load',
   MENU: 'menu',
   OVER: 'over',
-  PLAY: 'play'
+  PLAY: 'play',
 };

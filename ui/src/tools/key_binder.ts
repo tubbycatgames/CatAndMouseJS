@@ -14,7 +14,7 @@ export default class KeyBinder {
     this.bindKey(key, () => {this.game.state.start(state);});
   }
 
-  public getCursorKeys() {
+  public getCursorKeys(): Phaser.CursorKeys {
     return this.game.input.keyboard.createCursorKeys();
   }
 

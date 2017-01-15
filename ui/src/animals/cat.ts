@@ -1,4 +1,4 @@
-import Media  from '../constants/media';
+import Media from '../constants/media';
 import Random from '../tools/random';
 
 
@@ -33,7 +33,8 @@ export default class Cat {
     }
   }
 
-  private getVelocity({up, down, left, right}: Phaser.CursorKeys) {
+  private getVelocity({up, down,
+                       left, right}: Phaser.CursorKeys): Phaser.Point {
     const velocity = new Phaser.Point(0, 0);
 
     if      (left.isDown)  velocity.x = -this.speed;

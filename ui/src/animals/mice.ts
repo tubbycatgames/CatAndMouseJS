@@ -1,4 +1,4 @@
-import Media  from '../constants/media';
+import Media from '../constants/media';
 import Random from '../tools/random';
 
 

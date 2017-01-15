@@ -27,11 +27,7 @@ export default class PlayState extends Phaser.State {
     this.mice  = new Mice(this.game, mouseSpeed, mouseCount, mouseAwareness);
     this.score = new Score(this.game, mouseCount);
 
-    const keyBinder = new KeyBinder(this.game);
-    keyBinder.bindKeyToPause(Phaser.KeyCode.SPACEBAR);
-    keyBinder.bindKeyToRestart(Phaser.KeyCode.R);
-    keyBinder.bindKeyToState(Phaser.KeyCode.ESC, States.MENU);
-    this.cursors = keyBinder.getCursorKeys();
+    this.bindKeys();
 
     this.sound.play(Media.MEOW);
 
@@ -56,5 +52,13 @@ export default class PlayState extends Phaser.State {
     if (remainingMice === 0) {
       this.game.state.start(States.OVER, false);
     }
+  }
+
+  private bindKeys() {
+    const keyBinder = new KeyBinder(this.game);
+    keyBinder.bindKeyToPause(Phaser.KeyCode.SPACEBAR);
+    keyBinder.bindKeyToRestart(Phaser.KeyCode.R);
+    keyBinder.bindKeyToState(Phaser.KeyCode.ESC, States.MENU);
+    this.cursors = keyBinder.getCursorKeys();
   }
 }
