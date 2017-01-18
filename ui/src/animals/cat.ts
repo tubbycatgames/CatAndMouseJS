@@ -13,6 +13,8 @@ export default class Cat {
                                   Media.CAT);
     this.sprite.anchor.setTo(.5, .5);
 
+    this.sprite.animations.add('move', null, 2, true);
+
     game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
   }
@@ -26,9 +28,13 @@ export default class Cat {
     if (velocity.isZero()) {
       if (!this.sprite.body.velocity.isZero()) {
         this.sprite.body.velocity = velocity;
+        this.sprite.animations.stop('move');
       }
     }
     else {
+      if (this.sprite.body.velocity.isZero()) {
+        this.sprite.animations.play('move');
+      }
       this.adjustCat(velocity);
     }
   }

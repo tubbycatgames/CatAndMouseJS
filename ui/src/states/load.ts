@@ -25,7 +25,8 @@ export default class LoadState extends Phaser.State {
   }
 
   private loadImages() {
-    this.loadImageFile(Media.CAT, 'Cat.png');
+    this.loadSpritesheet(Media.CAT, 'Cat.png', 35, 20);
+
     this.loadImageFile(Media.FLOOR, 'TileFloor.png');
 
     this.loadImageFile(Media.MICE.BLACK, 'BlackMouse.png');
@@ -37,5 +38,10 @@ export default class LoadState extends Phaser.State {
 
   private loadImageFile(key: string, filename: string) {
     this.load.image(key, this.imageBase + filename);
+  }
+
+  private loadSpritesheet(key: string, filename: string,
+                          width: number, height: number) {
+    this.load.spritesheet(key, this.imageBase + filename, width, height);
   }
 }
