@@ -53,6 +53,9 @@ export default class Mice {
 
     mouse.events.onKilled.add(this.afterKill, this);
 
+    mouse.animations.add('move', null, 3, true);
+    mouse.animations.play('move');
+
     mouse.body.speed = speed;
     this.adjustMouse(mouse, Math.random() * Phaser.Math.PI2);
   }
@@ -73,7 +76,7 @@ export default class Mice {
 
   private afterKill(mouse: Phaser.Sprite) {
     mouse.visible = true;
-    mouse.loadTexture(Media.MICE.DEAD);
+    mouse.loadTexture(Media.MICE.DEAD, 0);
   }
 
   private fleeMice(mouse: Phaser.Sprite) {
