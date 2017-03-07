@@ -8,7 +8,8 @@ export default class Mice {
   private physics: Phaser.Physics.Arcade;
 
   private types: string[] = [
-    Media.MICE.BLACK, Media.MICE.BROWN, Media.MICE.GREY, Media.MICE.WHITE
+    Media.MICE.BLACK, Media.MICE.BROWN, Media.MICE.BUFF, Media.MICE.GREY,
+    Media.MICE.WHITE
   ];
 
   constructor(private game: Phaser.Game, speed: number, count: number,

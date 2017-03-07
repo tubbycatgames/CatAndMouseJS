@@ -33,6 +33,7 @@ export default class LoadState extends Phaser.State {
     const height = 10;
     this.loadSpritesheet(Media.MICE.BLACK, 'BlackMouse.png', width, height);
     this.loadSpritesheet(Media.MICE.BROWN, 'BrownMouse.png', width, height);
+    this.loadSpritesheet(Media.MICE.BUFF, 'BuffMouse.png', width, height);
     this.loadSpritesheet(Media.MICE.DEAD, 'DeadMouse.png', width, height);
     this.loadSpritesheet(Media.MICE.GREY, 'GreyMouse.png', width, height);
     this.loadSpritesheet(Media.MICE.WHITE, 'WhiteMouse.png', width, height);

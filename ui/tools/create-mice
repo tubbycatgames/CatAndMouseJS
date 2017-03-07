@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+convert media/sprites/WhiteMouse.png -fill '#000000' -opaque '#FFFFFF' media/sprites/BlackMouse.png
+convert media/sprites/WhiteMouse.png -fill '#663300' -opaque '#FFFFFF' media/sprites/BrownMouse.png
+convert media/sprites/WhiteMouse.png -fill '#F0DC82' -opaque '#FFFFFF' media/sprites/BuffMouse.png
+convert media/sprites/WhiteMouse.png -fill '#FF0000' -opaque '#FFFFFF' media/sprites/DeadMouse.png
+convert media/sprites/WhiteMouse.png -fill '#808080' -opaque '#FFFFFF' media/sprites/GreyMouse.png
