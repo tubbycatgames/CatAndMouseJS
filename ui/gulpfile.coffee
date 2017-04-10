@@ -1,6 +1,7 @@
 browserify  = require 'browserify'
 buffer      = require 'vinyl-buffer'
 clean       = require 'gulp-clean'
+download    = require 'gulp-download'
 gm          = require 'gulp-gm'
 gulp        = require 'gulp'
 gulpTypings = require 'gulp-typings'
@@ -15,10 +16,11 @@ tslintify   = require 'tslintify'
 uglify      = require 'gulp-uglify'
 
 
+libraryVersion = '2.6.2'
 paths =
   build:   'build/'
   index:   'index.html'
-  lib:     'lib/*.js'
+  lib:     'lib/'
   media:   ['media/audio/*', 'media/sprites/*']
   mouse:   ['media/sprites/Mouse.png']
   root:    './'
@@ -32,8 +34,7 @@ gulp.task 'default', ['serve']
 
 gulp.task 'build', ->
   return runSequence ['clean', 'typings'],
-                     ['index', 'lib', 'media', 'src', 'style'],
-                     ['create-mice']
+                     ['create-mice', 'index', 'lib', 'media', 'src', 'style']
 
 gulp.task 'clean', ->
   return gulp.src paths.build, read: false
@@ -49,7 +50,10 @@ gulp.task 'create-mice', ->
 
 gulp.task 'index', -> return copyToBuild paths.index
 
-gulp.task 'lib', ->   return copyToBuild paths.lib
+gulp.task 'lib', ->
+  download 'https://github.com/photonstorm/phaser/releases/download/' +
+      'v' + libraryVersion + '/phaser.min.js'
+    .pipe gulp.dest(paths.build + paths.lib)
 
 gulp.task 'media', -> return copyToBuild paths.media
 
@@ -84,7 +88,6 @@ gulp.task 'typings', -> return gulp.src(paths.typings).pipe gulpTypings()
 
 gulp.task 'watch', ->
   gulp.watch paths.index,   ['index']
-  gulp.watch paths.lib,     ['lib']
   gulp.watch paths.media,   ['media']
   gulp.watch paths.src,     ['src']
   gulp.watch paths.style,   ['style']
