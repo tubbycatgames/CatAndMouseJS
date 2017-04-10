@@ -1,8 +1,10 @@
 browserify  = require 'browserify'
 buffer      = require 'vinyl-buffer'
 clean       = require 'gulp-clean'
+gm          = require 'gulp-gm'
 gulp        = require 'gulp'
 gulpTypings = require 'gulp-typings'
+rename      = require 'gulp-rename'
 runSequence = require 'run-sequence'
 serve       = require 'gulp-serve'
 source      = require 'vinyl-source-stream'
@@ -18,6 +20,7 @@ paths =
   index:   'index.html'
   lib:     'lib/*.js'
   media:   ['media/audio/*', 'media/sprites/*']
+  mouse:   ['media/sprites/Mouse.png']
   root:    './'
   src:     'src/**/*.ts'
   srcMain: 'src/game.ts'
@@ -29,17 +32,26 @@ gulp.task 'default', ['serve']
 
 gulp.task 'build', ->
   return runSequence ['clean', 'typings'],
-                     ['index', 'lib', 'media', 'src', 'style']
+                     ['index', 'lib', 'media', 'src', 'style'],
+                     ['create-mice']
 
 gulp.task 'clean', ->
   return gulp.src paths.build, read: false
     .pipe clean()
 
-gulp.task 'index', -> return copyToBuild paths.index, paths.root, paths.build
+gulp.task 'create-mice', ->
+  convertMouse('#000000', 'Black')
+  convertMouse('#663300', 'Brown')
+  convertMouse('#F0DC82', 'Buff')
+  convertMouse('#FF0000', 'Dead')
+  convertMouse('#808080', 'Grey')
+  convertMouse('#FFFFFF', 'White')
 
-gulp.task 'lib', ->   return copyToBuild paths.lib, paths.root, paths.build
+gulp.task 'index', -> return copyToBuild paths.index
 
-gulp.task 'media', -> return copyToBuild paths.media, paths.root, paths.build
+gulp.task 'lib', ->   return copyToBuild paths.lib
+
+gulp.task 'media', -> return copyToBuild paths.media
 
 gulp.task 'serve', ['build', 'watch'], serve(root: ['build'], port: 8080)
 
@@ -78,6 +90,17 @@ gulp.task 'watch', ->
   gulp.watch paths.style,   ['style']
   gulp.watch paths.typings, ['typings']
 
-copyToBuild = (src, base, dest) ->
-  return gulp.src src, base: base
-    .pipe gulp.dest dest
+copyToBuild = (src) ->
+  return gulp.src src, base: paths.root
+    .pipe gulp.dest paths.build
+
+convertMouse = (color, name) ->
+  return gulp.src paths.mouse, base: paths.root
+    .pipe gm((imFile) ->
+      return imFile
+        .fill color
+        .opaque '#FFFFFF'
+      , imageMagick: true)
+    .pipe rename (path) ->
+      path.basename = name + path.basename
+    .pipe gulp.dest paths.build

@@ -9,7 +9,7 @@ import PlayState from './states/play';
 import States from './constants/state';
 
 
-const game = new Phaser.Game('99', '99', Phaser.CANVAS);
+const game = new Phaser.Game('99', '99');
 
 game.state.add(States.BOOT, BootState);
 game.state.add(States.CONTROLS, ControlsState);
