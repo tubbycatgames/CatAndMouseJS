@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+docker run --rm -it --net=host --privileged \
+       -v /home/$USER/.aws/credentials:/root/.aws/credentials \
+       -v $PWD:/game \
+       catandmouse bash
