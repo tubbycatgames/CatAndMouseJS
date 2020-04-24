@@ -4,11 +4,8 @@
   "description": "Cat and Mouse Game in Phaser",
   "main": "src/game.js",
   "scripts": {
-    "build": "npm run gulp -- build",
-    "deploy": "aws s3 cp --acl public-read build/ s3://www.playcatandmouse.com --recursive",
-    "gulp": "node_modules/.bin/coffeegulp",
-    "serve": "npm run gulp -- serve",
-    "typings": "node_modules/.bin/typings"
+    "build": "yarn coffeegulp build",
+    "serve": "yarn coffeegulp serve"
   },
   "repository": {
     "type": "git",
